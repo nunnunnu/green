@@ -12,5 +12,6 @@ public class ScannerProblem {
         s.nextLine();
         String str =s.nextLine(); 
         //number뒤에 온 enter를 따로 처리해줌
+        s.close();
     }
 }

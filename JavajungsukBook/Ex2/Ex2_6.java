@@ -9,5 +9,6 @@ public class Ex2_6 {
 
         System.out.println("입력내용 : "+input);
         System.out.printf("num=%d%n",num);
+        s.close();
     }
 }

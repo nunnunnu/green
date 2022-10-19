@@ -16,20 +16,24 @@ public class ScannerExercise {
         String user_birth = s.nextLine();
         if(user_birth.length()!=8){
             System.out.println("입력값이 잘못되었습니다.");
+            s.close();
             return;
         }
         
-        String user_gen = "";
+        // String user_gen = "";
         System.out.print("성별을 입력하세요. 0-선택안함. 1-남자, 2-여자 : >");
         int n = s.nextInt();
         
-        if(n==0) user_gen="선택안함";
-        else if(n==1) user_gen="남";
-        else if(n==2) user_gen="여";
-        else{ 
-            System.out.println("입력값이 잘못되었습니다.");
-            return;
-        }
+        // if(n==0) user_gen="선택안함";
+        // else if(n==1) user_gen="남";
+        // else if(n==2) user_gen="여";
+        // else{ 
+        //     System.out.println("입력값이 잘못되었습니다.");
+        //     s.close();
+        //     return;
+        // }
+        String user_gen = n==0?"선택안함":n==1?"남":"여";
+        s.close();
 
         System.out.println("=====회원등록정보=====");
         System.out.println("아이디 : "+user_id);
@@ -46,6 +50,5 @@ public class ScannerExercise {
         System.out.println();
         System.out.println("이름 : "+user_name +" / 생년월일 : "+user_birth+" / 성별 : "+user_gen);
         System.out.println("이메일 : "+user_email);
-        s.close();
     }    
 }

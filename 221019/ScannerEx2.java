@@ -6,8 +6,10 @@ public class ScannerEx2 {
         System.out.print("정수값을 입력해주세요 > ");
         int input_value=s.nextInt();
         final int MAX_VALUE = 255;
-        System.out.println("입력 값이 최대 값을 초과하는가? "+(input_value>MAX_VALUE));
-        System.out.println("입력 값이 최대 값을 이하인가? "+(input_value<=MAX_VALUE));
+        // System.out.println("입력 값이 최대 값을 초과하는가? "+(input_value>MAX_VALUE));
+        // System.out.println("입력 값이 최대 값을 이하인가? "+(input_value<=MAX_VALUE));
+        String msg = input_value>MAX_VALUE?"최대 초과":"최대 이하";
+        System.out.println(msg);
         s.close();
     }
 }
