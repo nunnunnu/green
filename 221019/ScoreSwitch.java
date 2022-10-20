@@ -22,7 +22,7 @@ public class ScoreSwitch {
         default :
             System.out.println("F");
         }
-
+        s.close();
         //100점이 넘는것도 입력이 가능함. 입력값을받을때는 if문을 써야함
     }
 }
