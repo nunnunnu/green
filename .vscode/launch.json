@@ -8,7 +8,8 @@
             "type": "java",
             "name": "Launch Current File",
             "request": "launch",
-            "mainClass": "${file}",
+            "mainClass": "${file}"
+
         },
         {
             "type": "java",
@@ -22,14 +23,15 @@
             "name": "Launch OperatorEx",
             "request": "launch",
             "mainClass": "OperatorEx",
-            "projectName": "green_a241a92b"
+            "projectName": "green_a241a92b",
+            
         },
         {
             "type": "java",
             "name": "Launch Variables",
             "request": "launch",
             "mainClass": "Variables",
-            "projectName": "green_a241a92b"
+            "projectName": "green_a241a92b",
         },
         {
             "type": "java",

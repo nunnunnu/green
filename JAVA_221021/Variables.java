@@ -50,6 +50,7 @@ public class Variables {
             int aa = 100; 
             System.out.println(i);
             System.out.println(aa); //두개 차이없음
+            System.out.println(args[0]);
 
             
     }

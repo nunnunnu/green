@@ -108,7 +108,7 @@ public class OperatorEx {
         num *= 10; 
         num %= 10; 
         System.out.println(num);
-
+        System.out.println(args[0]);
 
     }
 }
