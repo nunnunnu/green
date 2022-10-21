@@ -1,4 +1,4 @@
-public class Variables2 {
+public class Variables2222 {
     public static void main(String[] args) {
         //예약어(키워드) 사용 불가
         //public, static, void, String
@@ -23,6 +23,12 @@ public class Variables2 {
         //모두 다른 변수임. 그래도 이렇게 쓰지말기(유지보수 어렵게 할때 사용함[프리랜서작업시])
         // int Int = 10; //가능하나 쓰지말것
         // float Float = 10; //가능하나 쓰지말것
+
+        // int $$$$$____$$$$$ =10; //가능하나 알아보기힘드니 쓰지말것
+
+        //이미 만든 변수 재선언 불가
+        // int number_of_studrent=10; //에러
+        
 
     }
 }
