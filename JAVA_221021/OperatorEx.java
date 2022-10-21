@@ -109,19 +109,6 @@ public class OperatorEx {
         num %= 10; 
         System.out.println(num);
 
-        int arr[] = {80,75,55};
-        int sum=0;
-        for(i=0;i<arr.length;i++){
-            sum += arr[i];
-        }
-        System.out.println("평균 : "+sum/(double)arr.length); //70나옴
-        sum=0;        
-        Scanner s = new Scanner(System.in);
-        for(i=0;i<arr.length;i++){
-            System.out.print("점수를 입력하세요. > ");
-            arr[i]=s.nextInt();
-            sum+=arr[i];
-        }
-        System.out.println("입력받은 점수의 평균 : "+sum/(double)arr.length);
+
     }
 }
