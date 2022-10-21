@@ -3,8 +3,6 @@ package Ex8;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 public class Ex8_8{
     public static void main(String[] args) {
         //1~100사이의 임의의 값을 얻어서 answer에 저장한다
@@ -27,9 +25,9 @@ public class Ex8_8{
             else {
                 System.out.println("맞췄습니다.");
                 System.out.println("시도횟수는 "+count+"번 입니다.");
+                s.close();
                 break;
             }
         }while(true);
     }
 }
-
