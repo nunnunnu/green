@@ -19,7 +19,7 @@ public class UpAndDown {
                 System.out.println("시도횟수는 "+count+"번 입니다.");
                 break;
             }
-
+            s.close();
         }
     }
 }
