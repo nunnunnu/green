@@ -19,7 +19,7 @@ public class InputEx {
             if(birthyear==0) break;
             else if(birthyear>2022 || birthyear<0){
                 System.out.println("입력값이 잘못되었습니다.");
-                return;
+                continue;
             }
             System.out.println("입력한 값 : "+birthyear);
             // System.out.println((CURRENT_YEAR-birthyear+1)+"세 입니다");

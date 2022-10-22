@@ -12,18 +12,19 @@ public class ScannerExercise {
         String user_name = s.nextLine();
         System.out.print("이메일 : >");
         String user_email = s.nextLine();
-        System.out.print("생년월일(8자리로 입력하세요.) : >");
-        String user_birth = s.nextLine();
-        if(user_birth.length()!=8){
-            System.out.println("입력값이 잘못되었습니다.");
-            s.close();
-            return;
+        String user_birth="";
+        while(true){
+            System.out.print("생년월일(8자리로 입력하세요. 종료하려면 0을 입력해주세요.) : >");
+            user_birth = s.nextLine();
+            if(user_birth.length()!=8){
+                System.out.println("입력값이 잘못되었습니다.");
+                continue;
+            } else if(user_birth.equals("0")) break;
+            else break;
         }
         
         // String user_gen = "";
-        System.out.print("성별을 입력하세요. 0-선택안함. 1-남자, 2-여자 : >");
-        int n = s.nextInt();
-        
+        String user_gen="";
         // if(n==0) user_gen="선택안함";
         // else if(n==1) user_gen="남";
         // else if(n==2) user_gen="여";
@@ -32,9 +33,22 @@ public class ScannerExercise {
         //     s.close();
         //     return;
         // }
-        String user_gen = n==0?"선택안함":n==1?"남":"여";
+        while(true){
+            System.out.print("성별을 입력하세요. 0-선택안함. 1-남자, 2-여자, 9-종료: >");
+            int n = s.nextInt();
+            if(n==9) {
+                System.out.println("프로그램을 종료합니다.");
+                break;
+            }else if(n<0 || n>2){
+                System.out.println("입력값이 잘못되었습니다.");
+                continue;
+            }else {
+                user_gen = n==0?"선택안함":n==1?"남":"여";
+                break;
+            }
+        }
+        
         s.close();
-
         System.out.println("=====회원등록정보=====");
         System.out.println("아이디 : "+user_id);
         System.out.println("비밀번호 : "+user_pwd);
