@@ -12,18 +12,14 @@ public class InfiniteLoop {
                 dice2 = (int)(Math.random()*6)+1;
                 int sum = dice1+dice2;
                 int input=0;
-                while(true){
-                    System.out.print("홀짝을 입력하세요. (홀 : 1, 짝 : 0) >>");
-                    input = s.nextInt();
-                    if(input==0 || input ==1) {
-                        break;
-                    }else {
-                        System.out.println("입력값이 잘못되었습니다");
-                        System.out.println();
-                        continue;
-                    }
-                }
                 
+                System.out.print("홀짝을 입력하세요. (홀 : 1, 짝 : 0) >>");
+                input = s.nextInt();
+                if(!(input==0 || input ==1)) {
+                    System.out.println("입력값이 잘못되었습니다");
+                    System.out.println();
+                    continue;
+                }
                 int result= sum%2;
                 System.out.println("주사위 눈의 합 : "+sum);
 
