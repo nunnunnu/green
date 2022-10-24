@@ -9,9 +9,8 @@ public class Ex8_8{
         int answer = (int)(Math.random()*100)+1;
         int input=0;
         int count=0;
-
+        Scanner s = new Scanner(System.in);
         do{
-            Scanner s = new Scanner(System.in);
             try{
                 System.out.println("1과 100사이의 값을 입력하세요 : >");
                 input = s.nextInt();
