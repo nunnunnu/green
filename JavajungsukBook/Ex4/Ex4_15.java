@@ -9,14 +9,15 @@ public class Ex4_15 {
         Scanner s = new Scanner(System.in);
 
         do{
-            System.out.println("1과 100사이의 정수를 입력하세요. > ");
+            System.out.println("1?? 100?????? ?????? ????????. > ");
             input=s.nextInt();
             if(input>answer){
-                System.out.println("더 작은 수로 다시 시도해보세요.");
+                System.out.println("?? ???? ???? ??? ??????????.");
             }else if(input<answer){
-                System.out.println("더 큰수로 다시 시도해보세요");
+                System.out.println("?? ????? ??? ??????????");
             }
         }while(input!=answer);
-        System.out.println("정답입니다.");
+        System.out.println("????????.");
+        s.close();
     }
 }

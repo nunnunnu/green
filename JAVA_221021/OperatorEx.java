@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class OperatorEx {
     public static void main(String[] args) {
         //연산자

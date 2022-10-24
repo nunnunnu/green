@@ -12,5 +12,6 @@ public class Ex4_3 {
         }else {
             System.out.println("입력하신 숫자는 0이 아닙니다.");
         }
+        s.close();
     }
 }

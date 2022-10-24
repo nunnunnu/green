@@ -21,5 +21,6 @@ public class Ex4_4 {
             grade = 'D';
         }
         System.out.println("당신의 학점은 "+grade+"입니다.");
+        s.close();
     }
 }

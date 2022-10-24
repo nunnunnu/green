@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Ex4_18 {
     public static void main(String[] args) {
         int menu = 0;
-        int num = 0;
+        // int num = 0;
 
         Scanner s = new Scanner(System.in);
         while(true){
@@ -24,6 +24,7 @@ public class Ex4_18 {
                 continue;
             }
             System.out.println("선택하신 메뉴는 "+menu+"번입니다.");
+            s.close();
         }
     }
     
