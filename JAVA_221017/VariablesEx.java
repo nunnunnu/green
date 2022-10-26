@@ -21,8 +21,8 @@ public class VariablesEx {
         System.out.println(d);
         System.out.println();
 
-        
 
-        
+
+
     }
 }
