@@ -14,8 +14,8 @@ public class Ex01 {
             user[i][0] = "";
             user[i][1] = "";
         }
+        Scanner s = new Scanner(System.in);
         while(true){
-            Scanner s = new Scanner(System.in);
             System.out.print("1.회원가입, 2.로그인, 3.회원정보 수정, 0.종료 : > ");
             int sel = s.nextInt();
             s.nextLine();
