@@ -1,12 +1,14 @@
+package JAVA_221027;
+
 import java.util.Scanner;
 
 public class Member_method {
-    static final int MAX_MOMBER = 100;
+    static final int MAX_MEMBER = 100;
     static String user_id = "";
     static String user_pw = "";
     static String user_name = "";
     static String user_birth = "";        
-    static String user[][] = new String[MAX_MOMBER][4];
+    static String user[][] = new String[MAX_MEMBER][4];
     static int index = 0;
     static Scanner s = new Scanner(System.in);
     static int input=0;
