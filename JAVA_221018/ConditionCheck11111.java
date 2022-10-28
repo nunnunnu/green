@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class ConditionCheck {
+public class ConditionCheck11111 {
     public static void main(String[] args) {
         //비교연산자
         //대소비교(이상, 이하, 초과, 미만)

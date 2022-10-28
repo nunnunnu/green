@@ -1,4 +1,4 @@
-public class VariablesEx {
+public class VariablesEx11111 {
     public static void main(String[] args) {
         //주석기호(메모공간)
         //타입 변수명(식별자) = 값;
