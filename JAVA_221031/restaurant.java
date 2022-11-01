@@ -20,8 +20,8 @@ public class restaurant {
 
   restaurant(){}
   restaurant(String attr[],int min_amount, int min_time, int max_time, 
-            int min_delivery_tips, int max_delivery_tips, int pickup_amount, int pickup_min_time, 
-            int pickup_max_time,String address)
+      int min_delivery_tips, int max_delivery_tips, int pickup_amount, int pickup_min_time, 
+      int pickup_max_time,String address)
     {
     this.img = attr[0];
     this.name = attr[1];
@@ -169,38 +169,51 @@ public class restaurant {
       System.out.println("===================");
     }
   }
-  void order(String item_name, int num, int delivery_type){
+  private String[][] cart = new String[10][3];
+  int cart_index;
+  void addcart(String item_name, int num, int delivery_type){
     for(int i=0;i<=index;i++){
       if(item_name.equals(menu[i][0])){
-        int sum = num*Integer.parseInt(menu[i][1]);
-        if(sum<min_amount){
-          System.out.println("최소주문금액보다 주문금액이 적습니다.");
-          return;
-        }
-        if(sum>=20000){
-          System.out.println((sum)+"원 주문하셨습니다");
-          System.out.println("주문 메뉴 : "+menu[i][0]);
-          System.out.println("주문 수량 : "+num);
-          if(delivery_type==0){
-            System.out.println("배달비 : "+min_delivery_tips);
-            System.out.println("총 결제금액 : "+(sum+min_delivery_tips));
-          }else{
-            System.out.println("총 결제금액 : "+sum);
-          }
-        }else{
-          System.out.println((sum)+"원 주문하셨습니다");
-          System.out.println("주문 메뉴 : "+menu[i][0]);
-          System.out.println("주문 수량 : "+num);
-          if(delivery_type==0){
-            System.out.println("배달비 : "+max_delivery_tips);
-            System.out.println("총 결제금액 : "+(sum+max_delivery_tips));
-          }else{
-            System.out.println("총 결제금액 : "+sum);
-          }
-        }
-        return;
+        cart[cart_index][0] = menu[i][0];
+        cart[cart_index][1] = Integer.toString(num);
+        cart[cart_index][2] = menu[i][1];
+        cart_index++;
       }
     }
     System.out.println("메뉴를 잘못입력하셨습니다.");
+  }
+  
+  void order(int delivery_type){
+    int sum=0;
+    String order_list="";
+    for(int i=0;i<=index;i++){
+      if(cart[i][0]==null){
+        continue;
+      }
+      sum += Integer.parseInt(cart[i][1])*Integer.parseInt(cart[i][2]);
+      order_list += cart[i][0] +" " + cart[i][1]+ "개, "+"\n";
+    }
+    if(sum<min_amount){
+      System.out.println("최소주문금액보다 주문금액이 적습니다.");
+      return;
+    }
+    if(sum>=20000){
+      System.out.println("주문 메뉴 : \n"+order_list);
+      if(delivery_type==0){
+        System.out.println("배달비 : "+min_delivery_tips);
+        System.out.println("총 결제금액 : "+(sum+min_delivery_tips));
+      }else{
+        System.out.println("총 결제금액 : "+sum);
+      }
+    }else{
+      System.out.println((sum)+"원 주문하셨습니다");
+      System.out.println("주문 메뉴 : "+order_list);
+      if(delivery_type==0){
+        System.out.println("배달비 : "+max_delivery_tips);
+        System.out.println("총 결제금액 : "+(sum+max_delivery_tips));
+      }else{
+        System.out.println("총 결제금액 : "+sum);
+      }
+    }
   }
 }

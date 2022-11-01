@@ -32,13 +32,17 @@ public class restaurantEx {
     System.out.println();
     cafe.showInfo();
 
-    cafe.order("아메리카노", 2,0);
+    cafe.addcart("아메리카노", 2,0);
     System.out.println();
-    cafe.order("아메", 2,1);
+    cafe.addcart("아메", 2,1);
     System.out.println();
-    cafe.order("바닐라라떼", 10,1);
+    cafe.addcart("바닐라라떼", 10,1);
     System.out.println();
-    cafe.order("콜드브루 아인슈페너", 3,0);
+    cafe.addcart("콜드브루 아인슈페너", 3,0);
+
+    cafe.order(0);
+    System.out.println();
+    cafe.order(1);
 
   }
 }
