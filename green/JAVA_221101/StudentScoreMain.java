@@ -22,7 +22,6 @@ public class StudentScoreMain {
         String name = s.nextLine();
         System.out.print("점수 : ");
         Integer score = s.nextInt();
-        Boolean check = true;
         StudentScore std = new StudentScore(name, score);
         if(std.getCheck()){
           studentlist.add(new StudentScore(name, score));
