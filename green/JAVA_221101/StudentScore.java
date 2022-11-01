@@ -2,15 +2,18 @@ public class StudentScore {
   private String name;
   private Integer score;
   private String grade="";
-
+  private boolean check = true;
   public StudentScore(String name, Integer score){
     setName(name);
     setScore(score);
+  }
+  public StudentScore(){
   }
 
   void setName(String name){
     if(name.length()==0){
       System.out.println("이름을 입력하지않으셨습니다.");
+      this.check = false;
     }else{
       this.name = name;
     }
@@ -18,11 +21,14 @@ public class StudentScore {
   void setScore(Integer score){
     if(score < 0 || score >100){
       System.out.println("입력값이 잘못되었습니다");
+      this.check = false;
     }else{
       this.score = score;
     }
   }
-
+  boolean getCheck(){
+    return check;
+  }
   String getGrade(Integer score){
     if(score>=90){
       grade = "A"+ (score>=95?"+":"O");

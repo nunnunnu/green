@@ -22,7 +22,11 @@ public class StudentScoreMain {
         String name = s.nextLine();
         System.out.print("점수 : ");
         Integer score = s.nextInt();
-        studentlist.add(new StudentScore(name, score));
+        Boolean check = true;
+        StudentScore std = new StudentScore(name, score);
+        if(std.getCheck()){
+          studentlist.add(new StudentScore(name, score));
+        }
       }
       else if(sel ==2 ){
         System.out.println("===============목록================");
@@ -52,14 +56,18 @@ public class StudentScoreMain {
         System.out.println("삭제되었습니다.");  
       }
       else if(sel ==4 ){
-        System.out.println("===목록===");
         int sum=0;
         for(int i=0;i<studentlist.size();i++){
+          // StudentScore st = studentlist.get(i);
+          // sum += st.getScore();
+          sum += studentlist.get(i).getScore();
+          System.out.println("===목록===");
           System.out.println(i+"번째 학생 -"+studentlist.get(i));
-          StudentScore st = studentlist.get(i);
-          sum += st.getScore();
         }
-        System.out.println("전체 학생의 평균 : "+sum/studentlist.size());
+        if(studentlist.size()!=0){
+          System.out.println("전체 학생의 평균 : "+sum/studentlist.size());
+
+        }
       }
     }
     
