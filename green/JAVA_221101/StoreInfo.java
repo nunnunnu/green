@@ -10,4 +10,9 @@ public class StoreInfo {
     return str;
   }
 
+  public StoreInfo(StoreBasicInfo basicInfo, StoreDetailInfo detial, StoreBusinessInfo business){
+    store_basic = basicInfo;
+    store_detail = detial;
+    store_business = business;
+  }
 }

@@ -9,7 +9,6 @@ public class StoreBasicInfo {
   int min_delivery_price;
   int max_delivery_price;
 
-
   public StoreBasicInfo(  
     String thumbnail, String name, double score, int min_order_price, String[] payments, 
     int min_delivery_time, int max_delivery_time, int min_delivery_price, int max_delivery_price
