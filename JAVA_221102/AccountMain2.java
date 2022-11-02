@@ -12,7 +12,7 @@ public class AccountMain2 {
     System.out.println("accList의 크기 : "+accList.size());
     for(int i=0;i<accList.size();i++){
       accList.get(i).showInfo();
-    } //주로 이거 씀
+    } 
     System.out.println();
     for(Account a:accList){
       a.showInfo();
@@ -44,7 +44,12 @@ public class AccountMain2 {
     old.showInfo(); //교체 전 값 출력
     
     System.out.println();
-
+    
+    accList.add(1, old); //교체 전 값 1번에다가 집어넣고 뒷데이터들은 인덱스가 하나씩 밀림
+    for(Account a:accList){
+      a.showInfo(); 
+    }
+    
     
   }
 }

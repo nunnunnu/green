@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class StudentScoreMain1111 {
+public class StudentScoreMain {
   public static void main(String[] args) {
     List<StudentScore> studentlist = new ArrayList<StudentScore>();
     Scanner s= new Scanner(System.in);
