@@ -1,10 +1,9 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
-public class CollectionEx {
+public class CollectionEx1111 {
   public static void main(String[] args) {
     Integer[] arr = {10,20,30}; //크기변경 불가
     System.out.println(arr);

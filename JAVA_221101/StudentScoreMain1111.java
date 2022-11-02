@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class StudentScoreMain {
+public class StudentScoreMain1111 {
   public static void main(String[] args) {
     List<StudentScore> studentlist = new ArrayList<StudentScore>();
     Scanner s= new Scanner(System.in);
@@ -68,7 +68,7 @@ public class StudentScoreMain {
         int sum=0;
         for(int i=0;i<studentlist.size();i++){
           // StudentScore st = studentlist.get(i);
-          // sum += st.getScore();
+          // sum += st.getScore(); //나 왜이렇게했지
           sum += studentlist.get(i).getScore();
           System.out.println("===목록===");
           System.out.println(i+"번째 학생 -"+studentlist.get(i));
