@@ -13,6 +13,9 @@ public class Board {
   SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
   List<BoardDetail> commentList = new ArrayList<BoardDetail>();
   private int view;
+  Date nowDate = new Date();
+  private String[] category={"정보","유머","이슈"," 팁","잡담"};
+  private int index =0;
   
   public Board(){}
   // public Board(Integer no, String title, String name, String mainText, Date date, BoardDetail bd){
@@ -22,12 +25,25 @@ public class Board {
   //   setMainText(mainText);
   //   setDate(date);
   // }
-  public Board(Integer no, String title, String name, String mainText, Date date){
+  public Board(Integer no, int index, String title, String name, String mainText, Date date){
     setNo(no);
     setName(name);
     setTitle(title);
     setMainText(mainText);
     setDate(date);
+    setIndex(index);
+    makeDummydata();
+  }
+
+  //랜덤용
+  public Board(Integer no, int index, String title, String name, String mainText, Date date, int view){
+    setNo(no);
+    setName(name);
+    setTitle(title);
+    setMainText(mainText);
+    setDate(date);
+    randomView(view);
+    setIndex(index);
     makeDummydata();
   }
 
@@ -46,6 +62,15 @@ public class Board {
   void setDate(Date nowdate){
     this.Sdate = format.format(nowdate);
   }
+  void randomView(int view){
+    this.view = (int)(Math.random()*view)+1;
+  }
+  void setView(int view){
+    this.view = view;
+  }
+  void setIndex(int index){
+    this.index = index;
+  }
   Integer getNo(){
     return this.no;
   }
@@ -61,35 +86,38 @@ public class Board {
   String getDate(){
     return this.Sdate;
   }
+  int getCategorysize(){
+    return category.length;
+  }
+  int getView(){
+    return view;
+  }
 
   public String toString(){
-    return "글 번호 : "+no+" / 글 제목 : "+ title+" / 글쓴이 : "+ name + "/ 작성일 : "+ Sdate + " / 댓글 수 : "+commentList.size() + " / 조회수 : "+view;
+    return "["+category[index]+"] "+title+"(댓글 : "+commentList.size()+")"+" / 글쓴이 : "+ name + " / 작성일 : "+ Sdate + " / 조회수 : "+view +" / 글번호 : "+no;
   }
   void showDetailInfo(){
     view++;
-    System.out.println("글 번호   : "+no);
-    System.out.println("글 제목   : "+title);
+    System.out.println("-------------------------------------");
+    System.out.println("["+category[index]+"] "+title + "(no."+no+")");
     System.out.println("글쓴이    : "+name);
     System.out.println("조회수    : "+view);
     System.out.println("작성일    : "+Sdate);
+    System.out.println("-------------------------------------");
     System.out.println("본문 내용 : "+mainText);
+    System.out.println("-------------------------------------");
+    System.out.println("[댓글창] "+commentList.size());
     for(BoardDetail b : commentList){
       b.showInfo();
     }
   }
   int num;
   void makeDummydata(){
-    commentList.add(new BoardDetail("name"+num, "댓글내용입니다."+num));
-    num++;
-    commentList.add(new BoardDetail("name"+num, "댓글내용입니다."+num));
-    num++;
-    commentList.add(new BoardDetail("name"+num, "댓글내용입니다."+num));
-    num++;
-    commentList.add(new BoardDetail("name"+num, "댓글내용입니다."+num));
-    num++;
-    commentList.add(new BoardDetail("name"+num, "댓글내용입니다."+num));
-    num++;
-
+    int n = (int)(Math.random()*(view/5));
+    for(int  i=0;i<n;i++){
+      commentList.add(new BoardDetail("name"+num, "댓글내용입니다."+num, nowDate));
+      num++;
+    }
   }
 
 }

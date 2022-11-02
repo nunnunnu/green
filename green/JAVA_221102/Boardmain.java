@@ -12,7 +12,7 @@ public class Boardmain {
 
   public static void main(String[] args) {
     //글쓰기, 글수정, 글 삭제, 글목록(글내용 제외), 글내용 상세보기
-    dummydata();
+    dummydata(10);
 
     while(true){
       System.out.print("1.글쓰기, 2.글수정, 3.글 삭제, 4.글목록조회, 5.글내용 상세보기 0.종료 : >> ");
@@ -44,35 +44,33 @@ public class Boardmain {
       }
     }
   }
-  public static void dummydata(){
-    boardList.add(new Board(no, "글"+no, "닉네임"+no, "글본문입니다."+no, date));
-    no++;
-    boardList.add(new Board(no, "글"+no, "닉네임"+no, "글본문입니다."+no, date));
-    no++;
-    boardList.add(new Board(no, "글"+no, "닉네임"+no, "글본문입니다."+no, date));
-    no++;
-    boardList.add(new Board(no, "글"+no, "닉네임"+no, "글본문입니다."+no, date));
-    no++;
-    boardList.add(new Board(no, "글"+no, "닉네임"+no, "글본문입니다."+no, date));
-    no++;
-    boardList.add(new Board(no, "글"+no, "닉네임"+no, "글본문입니다."+no, date));
-    no++;
+  public static void dummydata(int n){
+    Board b = new Board();
+    for(int i=0;i<n;i++){
+      int r = (int)(Math.random()*b.getCategorysize());
+      boardList.add(new Board(no, r,"글"+no, "닉네임"+no, "글본문입니다."+no, date, 100));
+      no++;
+
+    }
   }
   public static void showInfo(){
+    System.out.println("===========글 목록=============");
     for(Board b : boardList){
-      System.out.println("===========글 목록=============");
       System.out.println(b);
     }
   }
   public static void addpost(){
     System.out.println("글을 작성합니다.");
+    System.out.print("카테고리 : 0.정보, 1.유머, 2.이슈, 3.팁, 4.잡담 >> ");
+    int a = s.nextInt();
     System.out.print("제목 : ");
+    s.nextLine();
     String title = s.nextLine();
     System.out.print("글쓴이 : ");
     String name = s.nextLine();
     System.out.print("본문 내용 : ");
     String mainText = s.nextLine();
-    boardList.add(new Board(no, title, name, mainText, date));
+    boardList.add(new Board(no, a, title, name, mainText, date));
     System.out.println("글 작성이 완료되었습니다.");
     no++;
   }
@@ -93,6 +91,8 @@ public class Boardmain {
       return;
     }
     System.out.println("======수정할 내용 입력======");
+    System.out.println("카테고리 : 0.정보, 1.유머, 2.이슈, 3.팁, 4.잡담");
+    int a = s.nextInt();
     System.out.print("제목 : ");
     s.nextLine();
     String title = s.nextLine();
@@ -100,11 +100,13 @@ public class Boardmain {
     String name = s.nextLine();
     System.out.print("본문 내용 : ");
     String mainText = s.nextLine();
-
+    
     System.out.print("정말로 수정하시겠습니까? 예-Y, 아니오 - 아무키나 입력하세요 : >> ");
+    int viewtmp = boardList.get(index).getView();
     String comfirm = s.nextLine();
     if(comfirm.equalsIgnoreCase("y")){
-      boardList.set(index, new Board(index, title, name, mainText, date));
+      boardList.set(index, new Board(index, a, title, name, mainText, date));
+      boardList.get(index).setView(viewtmp);
       System.out.println("수정이 완료되었습니다.");
     }
     else{
@@ -156,5 +158,17 @@ public class Boardmain {
       return;
     }
     boardList.get(index).showDetailInfo();
+    System.out.print("댓글을 다시려면 Y를 눌러주세요. 처음으로 돌아가려면 아무키나 누르세요 : >>");
+    s.nextLine();
+    String comfirm = s.nextLine();
+    if(comfirm.equalsIgnoreCase("Y")){
+      System.out.print("닉네임 : >> ");
+      String name = s.nextLine();
+      System.out.print("댓글 : >> ");
+      String comment = s.nextLine();
+      boardList.get(index).commentList.add(new BoardDetail(name, comment, date));
+      System.out.println("댓글 등록이 완료되었습니다.");
+      boardList.get(index).showDetailInfo();
+    }
   }
 }
