@@ -18,13 +18,6 @@ public class Board {
   private int index =0;
   
   public Board(){}
-  // public Board(Integer no, String title, String name, String mainText, Date date, BoardDetail bd){
-  //   setNo(no);
-  //   setName(name);
-  //   setTitle(title);
-  //   setMainText(mainText);
-  //   setDate(date);
-  // }
   public Board(Integer no, int index, String title, String name, String mainText, Date date){
     setNo(no);
     setName(name);
@@ -119,5 +112,8 @@ public class Board {
       num++;
     }
   }
+  // BoardDetail getcommentList(){
+  //   return commentList.
+  // }
 
 }

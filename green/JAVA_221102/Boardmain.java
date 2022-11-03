@@ -102,11 +102,13 @@ public class Boardmain {
     String mainText = s.nextLine();
     
     System.out.print("정말로 수정하시겠습니까? 예-Y, 아니오 - 아무키나 입력하세요 : >> ");
-    int viewtmp = boardList.get(index).getView();
     String comfirm = s.nextLine();
     if(comfirm.equalsIgnoreCase("y")){
-      boardList.set(index, new Board(index, a, title, name, mainText, date));
-      boardList.get(index).setView(viewtmp);
+      boardList.get(index).setTitle(title);
+      boardList.get(index).setName(name);
+      boardList.get(index).setMainText(mainText);
+      boardList.get(index).setIndex(a);
+
       System.out.println("수정이 완료되었습니다.");
     }
     else{
