@@ -97,7 +97,7 @@ public class Board {
     System.out.println("조회수    : "+view);
     System.out.println("작성일    : "+Sdate);
     System.out.println("-------------------------------------");
-    System.out.println("본문 내용 : "+mainText);
+    System.out.println(mainText);
     System.out.println("-------------------------------------");
     System.out.println("[댓글창] "+commentList.size());
     for(BoardDetail b : commentList){
