@@ -1,4 +1,3 @@
-package Ex8;
 
 class UnsupportedFunctionException extends RuntimeException {
     final private int ERR_CODE;
