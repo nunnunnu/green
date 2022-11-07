@@ -1,4 +1,4 @@
-public class Person {
+public abstract class Person {
   String name;
   String gen;
 
@@ -8,9 +8,7 @@ public class Person {
     this.gen = gen;
   }
   
-  void work(){
-    System.out.println("일을 시작합니다.");
-  }
+  abstract void work();
 
   public String toString() {
     return "이름 : "+name+" / 성별 : "+gen;

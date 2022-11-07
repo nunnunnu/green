@@ -9,8 +9,7 @@ public class Developer extends Person {
     this.language = language;
   }
   @Override
-  void work(){
-    super.work();
+  public void work(){
     System.out.println("개발자 "+name+"가(이) "+language+"(으)로 프로그램을 개발한다.");
   }
 }

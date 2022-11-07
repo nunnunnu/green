@@ -10,8 +10,7 @@ public class Designer extends Person {
   }
 
   @Override
-  void work(){
-    super.work();
+  public void work(){
     System.out.println("디자이너 "+name+"가(이) "+tool+"(으)로 디자인을 한다.");
   }
 }
