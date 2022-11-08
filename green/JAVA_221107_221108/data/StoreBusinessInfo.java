@@ -1,3 +1,4 @@
+package data;
 public class StoreBusinessInfo {
   public String owner;
   public String store;

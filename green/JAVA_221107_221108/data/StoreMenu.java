@@ -1,3 +1,4 @@
+package data;
 public class StoreMenu {
   public String menu_img;
   public String menu_name;
