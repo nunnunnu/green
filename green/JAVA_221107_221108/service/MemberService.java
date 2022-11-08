@@ -11,6 +11,9 @@ public class MemberService {
   public static Scanner scan = new Scanner(System.in);
   public static List<Member> memberList = new ArrayList<Member>();
   public static Member loginMember=null; //Session을 가상으로 만들어줌
+  public static void addMasterMember() throws Exception { //마스터 계정
+    memberList.add(new Member("admin", AESAlgorithm.Encrypt("1234"), "관리자", true)); 
+  }
   public static void logout(){ //Session 무효화.
     loginMember = null;
     System.out.println("로그아웃 되었습니다.");
