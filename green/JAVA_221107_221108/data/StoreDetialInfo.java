@@ -34,5 +34,7 @@ public class StoreDetialInfo {
     str += "배달가능지역 : "+delivery_area+"\n";
     return str;
   }
-  
+  public String getDataString(){
+    return introduce+";"+notice+";"+openClose.get("open")+";"+openClose.get(("close"))+";"+offDay+";"+phone+";"+delivery_area;
+  }
 }

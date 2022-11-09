@@ -1,5 +1,12 @@
 package service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +18,31 @@ public class MemberService {
   public static Scanner scan = new Scanner(System.in);
   public static List<Member> memberList = new ArrayList<Member>();
   public static Member loginMember=null; //Session을 가상으로 만들어줌
+
+  public static void loadMemberData() throws Exception {
+    BufferedReader reader = new BufferedReader(
+      new InputStreamReader(
+        new FileInputStream(
+          new File("member.dat")
+        ),"UTF-8"
+      )
+    );
+    while(true){
+      String line = reader.readLine();
+      if(line==null) break;
+      String[] split = line.split(",");
+      String id = split[0];
+      String pwd = split[1];
+      String name = split[2];
+      Boolean isAdmin = Boolean.parseBoolean(split[3]);
+
+      Member m = new Member(id, pwd, name, isAdmin);
+      memberList.add(m);
+      
+    }
+    reader.close();
+  }
+
   public static void addMasterMember() throws Exception { //마스터 계정
     memberList.add(new Member("admin", AESAlgorithm.Encrypt("1234"), "관리자", true)); 
   }
@@ -83,9 +115,18 @@ public class MemberService {
       System.out.print("계정유형(1.관리자, 0.일반) : ");
       Integer type = scan.nextInt();
       scan.nextLine();
-
-      memberList.add(new Member(id, pwd, name, type==1)); //type이 1이 아니면 false
+      Member m = new Member(id, pwd, name, type==1);
+      memberList.add(m); //type이 1이 아니면 false
       System.out.println("회원등록이 완료되었습니다.");
+      BufferedWriter writer = new BufferedWriter(
+        new OutputStreamWriter(
+          new FileOutputStream(
+            new File("member.dat"),true
+          ),"UTF-8"
+        )
+      );
+      writer.write(m.makeDataString()+"\r\n");
+      writer.close();
     }
   }
   //내가 만든거

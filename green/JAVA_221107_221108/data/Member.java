@@ -18,4 +18,7 @@ public class Member {
     String type = isAdmin?"관리자":"일반회원";
     return "아이디 : "+id+" / 이름 : "+name+" / 회원유형 : "+type/* +" / 비밀번호 : "+pwd */;
   }
+  public String makeDataString(){
+    return id+","+pwd+","+name+","+isAdmin;
+  }
 }

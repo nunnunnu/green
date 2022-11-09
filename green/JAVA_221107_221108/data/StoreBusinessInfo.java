@@ -20,4 +20,7 @@ public class StoreBusinessInfo {
       "주소 : "+address+"\n"+
       "사업자등록번호 : "+regNo+"\n";
   }
+  public String getDataString(){
+    return owner+";"+store+";"+address+";"+regNo;
+  }
 }

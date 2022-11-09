@@ -7,6 +7,8 @@ public class Main {
   public static Scanner scan = new Scanner(System.in);
   public static final boolean ADMIN_MODE = false;
   public static void main(String[] args) throws Exception {
+    MemberService.loadMemberData();
+    StoreService.storeInfoInitialize();
     MemberService.addMasterMember();
     while(true){
       System.out.println("1. 관리자, 2.일반사용자, 0.종료");
