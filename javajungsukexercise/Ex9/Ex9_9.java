@@ -5,7 +5,7 @@ public class Ex9_9 {
     }
     public static String delChar(String src, String delCh){
         StringBuffer sb = new StringBuffer(src.length());
-        String result="";
+        // String result="";
         for(int i=0;i<src.length();i++){
             char c = src.charAt(i);
             if(delCh.indexOf(c)==-1){
