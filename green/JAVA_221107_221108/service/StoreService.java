@@ -1,4 +1,11 @@
 package service;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,6 +89,23 @@ public class StoreService {
       new StoreDetialInfo(introduce, notice, openClose, off, phone, area),
       new StoreBusinessInfo(owner, store, address, regNo));
     storeList.add(s);
+    BufferedWriter w = null;
+    try{
+      w = new BufferedWriter(
+        new OutputStreamWriter(
+          new FileOutputStream(
+            new File("store.dat"), true
+          ),"UTF-8"
+        )
+      );
+      w.write(s.basicInfo.getDataString()+";"+s.detialInfo.getDataString()+";"+s.businessInfo.getDataString()+"\r\n");
+    } catch(Exception e){
+      System.out.println(e.getMessage());
+    }finally{
+      try{
+        w.close();
+      }catch(Exception e){}
+    }
   }
   public static void selectStore(){
     System.out.print("가게 선택 (0 ~ "+(storeList.size()-1)+") : ");
@@ -154,6 +178,52 @@ public class StoreService {
       sum += r.score;
     }
     selectedStore.basicInfo.score = sum/(double)selectedStore.reviews.size();
+  }
+  public static void storeInfoInitialize() { //파일을 읽어와서 storeList에 추가하는 메소드
+    BufferedReader reader = null;
+    try{
+      reader = new BufferedReader(
+        new InputStreamReader(
+          new FileInputStream(
+            new File("store.dat")
+          ),"UTF-8"
+        )
+      );
+      while(true){
+        String line = reader.readLine();
+        if(line == null) break;
+        String[] split = line.split(";");
+        String name = split[0];
+        Integer min_order_price = Integer.parseInt(split[1]);
+        Integer[] delivery_time = { Integer.parseInt(split[2]), Integer.parseInt(split[3])};
+        Map<String, Integer> delivery_price = new HashMap<String, Integer>();
+        delivery_price.put("min", Integer.parseInt(split[4]));
+        delivery_price.put("max", Integer.parseInt(split[5]));
+        String introduce = split[6];
+        String notice = split[7];
+        Map<String, String> openclose = new HashMap<String, String>();
+        openclose.put("open", split[8]);
+        openclose.put("close", split[9]);
+        String offDay = split[10];
+        String phone = split[11];
+        String delivery_area = split[12];
+
+        String owner = split[13];
+        String businessName = split[14];
+        String businessPhone = split[15];
+        String regNo = split[16];
+        Store s = new Store(
+          new StoreBasicInfo(name, 0.0, min_order_price, delivery_time, delivery_price),
+          new StoreDetialInfo(introduce, notice, openclose, offDay, phone, delivery_area),
+          new StoreBusinessInfo(owner, businessName, businessPhone, regNo));
+          storeList.add(s);
+        }
+    }catch(Exception e){
+      
+    }finally{
+      try{ reader.close();}
+      catch(Exception e){}
+    }
   }
   
 }

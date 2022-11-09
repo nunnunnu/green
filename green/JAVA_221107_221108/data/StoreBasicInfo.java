@@ -28,5 +28,8 @@ public class StoreBasicInfo {
 
     return str;
   }
+  public String getDataString(){
+    return name+";"+min_order_price+";"+delivery_time[0]+";"+delivery_time[1]+";"+delivery_price.get("min")+";"+delivery_price.get("max");
+  }
 
 }
