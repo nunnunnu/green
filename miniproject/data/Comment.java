@@ -3,6 +3,7 @@ package data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import service.MemberService;
 import service.PostService;
 
 public class Comment {
@@ -52,8 +53,13 @@ public class Comment {
     return this.commentText;
   }
 
-  public void setCommentText(String commentText) {
+  public boolean setCommentText(String commentText) {
+    if(commentText==""){
+      System.out.println("댓글이 입력되지않았습니다. ");
+      return false;
+    }
     this.commentText = commentText;
+    return true;
   }
 
   public String getCreateDate() {
@@ -76,8 +82,8 @@ public class Comment {
   public Comment(String commentText, Integer commentNo){
     setPostNo(PostService.selectedPost.getNo());
     setCommentNo(commentNo);
-    setId(PostService.selectedPost.getId());
-    setNickname(PostService.selectedPost.getNickname());
+    setId(MemberService.loginMember.getId());
+    setNickname(MemberService.loginMember.getNickname());
     setCommentText(commentText);
     setCreateDate(new Date());
     setStatus(0);
