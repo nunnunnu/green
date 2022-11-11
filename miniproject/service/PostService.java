@@ -25,7 +25,7 @@ public class PostService {
 
   public static void makeDummyPostData(int n) throws Exception {
     for(int i=0;i<n;i++){
-      int r = (int)(Math.random()*Post.cate.length-1)+1;
+      int r = (int)(Math.random()*Post.cate.length-1)+1; //공지 빼고 카테고리 랜덤
       Post p = new Post(no, "글 제목입니다"+i, "글 내용입니다."+i, r,"닉네임"+i%10,"user00"+i%10,0);
       posts.add(p);
 

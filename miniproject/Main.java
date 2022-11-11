@@ -14,9 +14,9 @@ public class Main {
     // PostService.makeDummyPostData(50);
     
     MemberService.loadMemberData();
-    // PostService.loadPostData();
+    PostService.loadPostData();
     // CommentService.makeDummyCmtData(100);
-    // CommentService.loadCmtData();
+    CommentService.loadCmtData();
     // MemberService.loginMember = new Member("123456", "123456", "aaaaaa", "ddddd", "123456", "1111111111111");
     while(true){
       System.out.println("======================메뉴를 선택하세요======================");
