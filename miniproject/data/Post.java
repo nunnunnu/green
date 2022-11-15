@@ -17,6 +17,24 @@ public class Post {
   public static String[] cate = {"공지","정보","잡담","유머","  팁","이슈"};
   SimpleDateFormat f = new SimpleDateFormat("yy-MM-dd HH:mm");
   private String id;
+  private Integer view;
+  private Integer like;
+
+  public Integer getLike() {
+    return this.like;
+  }
+
+  public void setLike(Integer like) {
+    this.like = like;
+  }
+
+  public Integer getView() {
+    return this.view;
+  }
+
+  public void setView(Integer view) {
+    this.view = view;
+  }
 
   public Integer getNo() {
     return this.no;
@@ -97,12 +115,16 @@ public class Post {
   }
 
   public boolean setCategory(Integer category) {
+    if(category==null){ //null이 들어왔을때 아래 비교연산자를 사용하지않도록 return시켜줌.
+      return false;
+    }
     if(MemberService.loginMember==null){
       this.category = category;
       return true;
-    }else if(MemberService.loginMember.getStatus()==0){
+    }else if(MemberService.loginMember.getStatus()==0){ 
+
       if(category>= Post.cate.length || category<=0){ //일반회원은 공지 작성 불가능
-        System.out.println("번호를 잘못입력하셨습니다??.");
+        System.out.println("번호를 잘못입력하셨습니다.");
         return false;
       }
     }else if(MemberService.loginMember.getStatus()==3){
@@ -125,6 +147,7 @@ public class Post {
     setNickname(MemberService.loginMember.getNickname());
     setId(MemberService.loginMember.getId());
     setNo(no);
+    setLike(0);
   }
 
   //더미데이터용 생성자
@@ -137,19 +160,22 @@ public class Post {
     setNickname(nickname);
     setId(id);
     setNo(no);
+    setLike(like);
   }
 
 	
   public String makePostData(){
-    return title+","+content+","+nickname+","+createDate+","+modDate+","+status+","+category+","+id+","+no;
+    return title+","+content+","+nickname+","+createDate+","+modDate+","+status+","+category+","+id+","+no+","+view+","+like;
   }
 
   public void showDetailInfo(int idx) {
+    view++;
     System.out.println("["+cate[category]+"] "+title+" "+createDate+"(no."+no+")");
-    System.out.println("작성자 : "+nickname);
+    System.out.println("작성자 : "+nickname+"      조회수:"+view);
     System.out.println("---------------------------------------------------------");
     System.out.println(content);
     System.out.println();
+    System.out.println("추천 수 : "+like);
     if(modDate!=null){
       System.out.println("마지막 수정일 : "+modDate);
     }
@@ -157,13 +183,12 @@ public class Post {
       System.out.println("게시글 작성자 아이디 "+id);
     }
     System.out.println("---------------------------------------------------------");
-
   }
 
   @Override
   public String toString() {
     return 
-      "["+cate[category]+"] "+title+" "+createDate+"(no."+no+")";
+      "["+cate[category]+"] "+title+" "+createDate+" "+view+"(no."+no+")";
   }
 
 
