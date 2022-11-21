@@ -1,0 +1,93 @@
+create database book_db;
+use book_db;
+
+create table book_info(
+  bi_seq	int	not null	auto_increment	primart key,
+  bi_title	varchar(100)	not null		,
+  bi_sub_title	text			,
+  bi_publisher	int	not null		,
+  bi_pub_dt	date	not null		,
+  bi_cate	int	not null		,
+  bi_author	int	not null		,
+  bi_pay	int	not null		,
+  bi_status	int	not null	default 0	
+);
+
+create table book_detail(
+  bd_seq	int	not null	auto_increment	primart key,
+  bd_page	int	not null		,
+  bd_weight	int	not null		,
+  bd_size	varchar(20)	not null		,
+  bd_title	text	not null		,
+  bd_detail	text	not null		,
+  bd_sales	int	not null	default 0	
+);
+
+create table book_img(
+  bimg_seq	int 	not null	auto_increment	primart key,
+  bimg_img	varchar(50)	not null,		
+  bimg_bi_seq	int 	not null		
+);
+
+create table category_img(
+  ci_seq	int	not null	auto_increment	primart key,
+  ci_cate	varchar(20)	not null		
+);
+
+create table auther_info(
+  ai_seq	int	not null	auto_increment	primart key,
+  ai_name	varchar(20)	not null		,
+  ai_introduce	text	not null		,
+  ai_birth	date	not null		
+);
+
+create table book_review(
+  br_seq	int	not null	auto_increment	primart key,
+  br_score	int	not null default	0	,
+  br_comment	text	not null		,
+  br_mi_seq	int	not null		,
+  bi_like	int	not null	default 0	
+);
+
+create table member_info(
+  mi_seq	int	not null	auto_increment	primart key,
+  mi_id	varchar(50)	not null		,
+  mi_pwd	varchar(50)	not null		,
+  mi_gen	int	not null	default 0	,
+  mi_birth	date	not null		,
+  mi_address	varchar(100)	not null		,
+  mi_email	varchar(20)	not null		,
+  mi_reg_dt	datetime	not null	now()	,
+  mi_status	int	not null	default 1	
+);
+
+create table book_review_like(
+  brl_seq	int	not null	auto_increment	primart key,
+  brl_like	int	not null	default 0	,
+  brl_mi_seq	int	not null		
+);
+
+create table publisher_info(
+  pi_seq	int	not null	auto_increment	primart key,
+  pi_name	varchar(50)	not null		
+);
+
+create table translation_info(
+  ti_seq	int	not null	auto_increment	primart key,
+  ti_name	varchar(50)	not null		
+);
+
+
+INSERT INTO book_db.member_info
+(mi_id, mi_pwd, mi_name, mi_birth, mi_gen, mi_address, mi_email)
+VALUES
+('user001', '1234', '서민영', '1982-05-27', 2, '서울','user001@book.com'),
+('user002', '1234', '최민은', '1976-01-01', 2, '인천','user002@book.com'),
+('user003', '1234', '이예영', '1968-10-19', 2, '대구','user003@book.com'),
+('user004', '1234', '장시혁', '2004-05-12', 1, '부산','user004@book.com'),
+('user005', '1234', '한서원', '1979-06-03', 1, '울산','user005@book.com'),
+('user006', '1234', '박예진', '1986-06-07', 2, '대전','user006@book.com'),
+('user007', '1234', '박하혁', '2001-11-25', 1, '광주','user007@book.com'),
+('user008', '1234', '박예은', '2006-03-27', 1, '공주','user008@book.com'),
+('user009', '1234', '서은진', '1997-10-06', 2, '경주','user009@book.com'),
+('user010', '1234', '임은우', '1995-09-10', 1, '포항','user010@book.com');

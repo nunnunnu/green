@@ -278,7 +278,7 @@ public class PostService {
       System.out.println("아직 로그인하지 않으셨습니다. 로그인 먼저 해주세요");
       return;
     }
-    int idx=-1;
+    boolean check = true;
     System.out.println("=============게시글 삭제==============");
     if(selectedPost==null){
       System.out.print("삭제할 게시글의 번호를 입력하세요 : ");
@@ -295,16 +295,16 @@ public class PostService {
       }
       for(int i=0;i<posts.size();i++){ //입력한 게시글 번호의 인덱스를 찾음
         if(posts.get(i).getNo()==postNo){
-          idx=i;
+          check = false;
           selectedPost = posts.get(i); //선택 게시물에 posts의 주소값을 받아와 선택게시물이 수정되면 posts도 함께 수정됨
-          selectedPost.showDetailInfo(idx);
+          selectedPost.showDetailInfo();
           break;
         }
       }
     }else{
-      idx = posts.indexOf(selectedPost);
+      check = false;
     }
-    if(idx==-1 || selectedPost.getStatus()!=0){ //존재하지 않거나 존재하는데 상태가 삭제or블라인드됐을경우
+    if(check || selectedPost.getStatus()!=0){ //존재하지 않거나 존재하는데 상태가 삭제or블라인드됐을경우
       System.out.println("존재하지 않는 게시글입니다.");
     }else if(selectedPost.getId().equals(MemberService.loginMember.getId())){ //게시글의 아이디와 로그인 아이디가 같다면
       System.out.println("정말로 삭제하시겠습니까?(삭제-y, 취소-아무키나 누르세요)");
@@ -397,7 +397,7 @@ public class PostService {
       System.out.println("존재하지 않는 게시글입니다.");
       return false;
     }else{
-      posts.get(idx).showDetailInfo(idx); //Post 클래스의 메소드 실행 (조회수 1 올라감) 
+      posts.get(idx).showDetailInfo(); //Post 클래스의 메소드 실행 (조회수 1 올라감) 
       postFileCover();  //1 올라간 조회수 반영을 위해 파일 덮어쓰기
       CommentService.showCmtList(); //해당 게시글의 댓글 조회
       if(MemberService.loginMember.getStatus()==3){ //운영자일때 추가로 보여질 블라인드메뉴
@@ -416,7 +416,7 @@ public class PostService {
         if(sel==0){
           System.out.println("취소되었습니다"); 
         }else if(sel==1){
-          MasterService.materPostBlock(idx);
+          MasterService.materPostBlock();
           return false;
         }else if(sel==2){
           MasterService.materCmtBlock();
@@ -455,14 +455,14 @@ public class PostService {
     }
     return true;
   }
-  public static void bestPostList() { //조회수 상위 10개를 조회하는 메소드
+  public static void bestPostList() { //조회수 상위 10개를 조회하는 메소드(복사한 배열 내림차순 정렬)
     List<Post> temp = new ArrayList<Post>(posts); //posts를 temp에 복사
     
-    //클래스 내의 조회수로 정렬을 하기 위해 Comparator 인터페이스를 사용(복사한 배열 내림차순 정렬)
+    //클래스 내의 조회수로 정렬을 하기 위해 Comparator 인터페이스를 사용
     Comparator<Post> bestPost = new Comparator<Post>() { 
       @Override
-      public int compare(Post p1, Post p2){ //Comparator의 compare메소드를 실행/ p1와 p2의 값을 비교(0:같음, 양수:왼쪽이큼, 음수:오른쪽이 큼)
-        //정렬 기준을 결정하는 메소드임
+      public int compare(Post p1, Post p2){ //Comparator의 compare메소드를 오버라이드/ p1와 p2의 값을 비교(0:같음, 양수:왼쪽이큼, 음수:오른쪽이 큼)
+        //정렬 기준을 결정
         int a = p1.getView();
         int b =p2.getView();
         if(a<b){ //내림차순 비교를 위해 오른쪽 값이 클때 자리 바꿈 실행
@@ -477,13 +477,13 @@ public class PostService {
     System.out.println("====================베스트 게시물=====================");
     for(int i=0;i<10;i++){ //10개만 출력
       if(temp.get(i).getStatus()==1){ //블라인드된 글은 메세지 표시
-        System.out.println("(블라인드 된 게시글입니다.)");
+        System.out.println((i+1)+" : (블라인드 된 게시글입니다.)");
         continue;
       }else if(temp.get(i).getStatus()==2){ //삭제된 글은 메세지 표시
-        System.out.println("(삭제 된 게시글입니다.)");
+        System.out.println((i+1)+" : (삭제 된 게시글입니다.)");
         continue;
       }
-      System.out.println(temp.get(i)); //둘다 아니라면 게시물 출력
+      System.out.println((i+1)+" : "+temp.get(i)); //둘다 아니라면 게시물 출력
     }
   }
   public static void like() {
