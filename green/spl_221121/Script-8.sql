@@ -348,28 +348,42 @@ VALUES('‘방송계의 퓰리처상’ 피버디상 수상자 룰루 밀러의
 select * from book_explanation be 
 where be_bi_seq =4;
 
-create view book_view as
-select bi.bi_title , bi.bi_sub_title ,bi.bi_cate, bi.bi_pay , bd.bd_sales , ai.ai_name , avg(br.br_score) as score
-from book_info bi join book_detail bd 
-on bi.bi_seq = bd.bd_bi_seq
-join author_info ai 
-on bi.bi_author_seq = ai.ai_seq 
-join book_review br
-on bi_seq = br.br_bi_seq  join category_info ci 
-on bi.bi_cate = ci.ci_seq
-group by br.br_bi_seq;
+select * from book_detail bd 
+
+-- create view book_view as
+-- select bi.bi_title , bi.bi_sub_title ,bi.bi_cate, bi.bi_pay , bd.bd_sales , ai.ai_name , avg(br.br_score) as score
+-- from book_info bi join book_detail bd 
+-- on bi.bi_seq = bd.bd_bi_seq
+-- join author_info ai 
+-- on bi.bi_author_seq = ai.ai_seq 
+-- join book_review br
+-- on bi_seq = br.br_bi_seq  join category_info ci 
+-- on bi.bi_cate = ci.ci_seq
+-- group by br.br_bi_seq;
+-- bi_author 칼럼 삭제. 사용불가
 
 select * from book_view;
 
-select * from category_info ci left join category_info ci2 
+select * from category_info ci left outer join category_info ci2 
 on ci2.ci_parent_seq = ci.ci_seq ;
 
-select mi.mi_id ,mi_name ,bi.bi_title , ai.ai_name ,br.br_score ,br.br_comment  from member_info mi join book_review br 
-on mi_seq = br.br_mi_seq join book_info bi 
-on bi.bi_seq = br.br_bi_seq  join author_info ai 
-on ai.ai_seq = bi.bi_author_seq;
+with RECURSIVE cte(ci_seq, ci_cate, ci_parent_seq) as (
+select ci_seq, ci_cate ,ci_parent_seq from category_info
+where ci_parent_seq is null
+union all 
+select b.ci_seq, concat(b.ci_cate,'>', b.ci_cate ) ,b.ci_parent_seq from cte d join category_info b
+on b.ci_seq = d.ci_parent_seq
+) 
+select * from cte;
 
-drop table book_cart ;
+
+-- select mi.mi_id ,mi_name ,bi.bi_title , ai.ai_name ,br.br_score ,br.br_comment  from member_info mi join book_review br 
+-- on mi_seq = br.br_mi_seq join book_info bi 
+-- on bi.bi_seq = br.br_bi_seq  join author_info ai 
+-- on ai.ai_seq = bi.bi_author_seq;
+-- bi_author 칼럼 삭제. 사용불가
+
+-- drop table book_cart ;
 create table book_cart(
 bc_seq	int	not null	auto_increment	primary key,
 bc_mi_seq	int	not null,		
@@ -392,41 +406,52 @@ VALUES
 (2, 3, 2),
 (2, 4, 1);
 
+INSERT INTO book_db.book_cart
+(bc_mi_seq, bc_bi_seq, bc_count)
+VALUES
+(3, 2, 2),
+(3, 3, 1),
+(3, 4, 2),
+(4, 2, 1),
+(4, 3, 3),
+(4, 4, 1);
+
 select * from book_cart bc ;
 
 
 
 
--- create view totalcart as
-select c.mi_id , c.mi_name , sum(a.bc_count*b.bi_pay) as total_sum
-from book_cart a 
-join book_info b
-on a.bc_bi_seq = b.bi_seq join member_info c
-on c.mi_seq = a.bc_mi_seq  
-group by a.bc_mi_seq ;
+-- select c.mi_id , c.mi_name , sum(a.bc_count*b.bi_pay) as total_sum
+-- from book_cart a 
+-- join book_info b
+-- on a.bc_bi_seq = b.bi_seq join member_info c
+-- on c.mi_seq = a.bc_mi_seq  
+-- group by a.bc_mi_seq, mi_id with rollup ;
 
-select * from totalcart ;
-
-drop table book_order ;
+-- drop table book_order ;
 create table book_order(
 bo_seq	int	not null	auto_increment	primary key,
 bo_mi_seq	int	not null		,
 bo_date	datetime	not null	default now()	,
 bo_msg	text	null		,
 bo_payment	int	not null,
-bo_price int not null,
+bo_status	int 	not null,
 bo_delevery	int 	not null	
 );
 
 INSERT INTO book_db.book_order
-(bo_mi_seq,  bo_msg, bo_payment, bo_price, bo_delevery)
-VALUES(1, '문앞에 놔두고 가주세요', 1,70200,1);
+(bo_mi_seq,  bo_msg, bo_payment, bo_status, bo_delevery)
+VALUES(1, '문앞에 놔두고 가주세요', 1,0,1);
 
 select * from book_order;
 
 INSERT INTO book_db.book_order
-(bo_mi_seq, bo_msg, bo_payment, bo_price, bo_delevery)
-VALUES(2, '부재시 연락주세요', 1,56250,1);
+(bo_mi_seq, bo_msg, bo_payment, bo_status, bo_delevery)
+VALUES(2, '부재시 연락주세요', 1,0,1);
+
+INSERT INTO book_db.book_order
+(bo_mi_seq, bo_payment, bo_status, bo_delevery)
+VALUES(3,1,0,1);
 
 
 select * from book_order ;
@@ -457,16 +482,189 @@ values
 
 select * from delivery_info
 
-select c.mi_id , b.bi_title ,a.bc_count, b.bi_pay, sum(b.bi_pay*a.bc_count)
+create table order_detail(
+od_seq	int	not null	auto_increment	primary key,
+od_bo_seq	int	not null,		
+od_bi_seq	int	not null,		
+od_count	int	not null,
+od_mi_seq	int	not null	
+); 
+
+INSERT INTO book_db.order_detail
+(od_bo_seq, od_bi_seq, od_count, od_mi_seq)
+VALUES
+(1, 1, 2, 1),
+(1, 2, 1, 1),
+(1, 3, 1, 1),
+(1, 4, 1, 1),
+(2, 2, 1, 2),
+(2, 3, 2, 2),
+(2, 4, 1, 2);
+
+INSERT INTO book_db.order_detail
+(od_bo_seq, od_bi_seq, od_count, od_mi_seq)
+VALUES
+(3, 2, 2, 3),
+(3, 3, 1, 3),
+(3, 4, 2, 3);
+
+
+select * from order_detail od ;
+
+select * from book_review br ;
+
+INSERT INTO book_db.book_review_like
+(brl_like, brl_mi_seq)
+VALUES(2, 1);
+
+select * from book_review_like brl ;
+
+-- 회원별 결제정보 조회
+-- create view order_list as
+select a.od_bo_seq , c.mi_name ,c.mi_id ,b.bi_title , b.bi_pay , sum(a.od_count ) as count , sum(b.bi_pay * a.od_count) as total, d.bo_msg 
+from order_detail a join book_info b
+on a.od_bi_seq =b.bi_seq join member_info c
+on c.mi_seq = a.od_mi_seq join book_order d 
+on a.od_bo_seq = d.bo_seq 
+group by c.mi_seq;
+
+-- 배송정보 조회
+select b.mi_id, b.mi_name , b.mi_address , a.bo_msg,  d.di_name, c.pi_name , bo_date , e.total  
+from book_order a join member_info b 
+on a.bo_mi_seq = b.mi_seq join payment_info c
+on c.pi_seq = a.bo_payment join delivery_info d 
+on a.bo_delevery = d.di_seq join order_list e
+on e.od_bo_seq = a.bo_seq 
+group by e.od_bo_seq ;
+
+-- 카트 목록 조회
+select c.mi_id , ifnull(b.bi_title,'합계') as title ,sum(a.bc_count) as count , b.bi_pay, sum(b.bi_pay*a.bc_count)
 from book_cart a
 join book_info b 
 on a.bc_bi_seq = b.bi_seq join member_info c
 on c.mi_seq = a.bc_mi_seq
-group by c.mi_seq, b.bi_title with rollup 
+group by c.mi_seq, b.bi_title with rollup ;
 
-select b.mi_id, b.mi_name , b.mi_address , a.bo_msg, a.bo_price, d.di_name, c.pi_name  from book_order a join member_info b 
-on a.bo_mi_seq = b.mi_seq join payment_info c
-on c.pi_seq = a.bo_payment join delivery_info d 
-on a.bo_delevery = d.di_seq
+-- 주묵 목록 조회
+select c.mi_id , ifnull(b.bi_title,'합계') as title ,sum(a.od_count) as count , b.bi_pay, sum(b.bi_pay*a.od_count)
+from order_detail a
+join book_info b 
+on a.od_bi_seq = b.bi_seq join member_info c
+on c.mi_seq = a.od_mi_seq
+-- where a.od_mi_seq =1
+group by c.mi_seq, b.bi_title with rollup ;
 
+create table book_author(
+	ba_seq	int	not null	auto_increment	primary key,
+	ba_ai_seq int not null,
+	ba_bi_seq int not null
+);
+
+select * from book_info bi ;
+
+INSERT INTO book_db.book_author
+(ba_ai_seq, ba_bi_seq)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4);
+
+select * from category_info ci ;
+
+INSERT INTO book_db.category_info
+(ci_cate, ci_parent_seq, ci_level)
+VALUES
+('인문/교양', 7, 3),
+('교양으로 읽는 인문', 14, 4);
+
+INSERT INTO book_db.publisher_info
+(pi_name)
+VALUES('열림원');
+
+select * from publisher_info pi2 ;
+
+INSERT INTO book_db.author_info
+(ai_name, ai_introduce, ai_country)
+VALUES
+('김지수', '1971년 서울 출생. 질문하고 경청하고 기록하며 23년째 기자라는 ‘업’을 이어 오고 있다. 패션지 [마리끌레르], [보그] 에디터를 거쳐 현재 조선일보 디지털 편집국에서 문화부장을 맡고 있다.
+', '한국'),
+('이어령', '1933년 충남 아산에서 출생. 서울대학교 문리과대학 및 동 대학원을 졸업하고 단국대학교 대학원에서 박사학위를 취득했다. 서울대 재학 시절 [문리대학보]의 창간을 주도 ‘이상론’으로 문단의 주목을 끌었으며, [한국일보]에 당시 문단의 거장들을 비판하는 「우상의 파괴」를 발표, 새로운 ‘개성의 탄생’을 알렸다. 20대부터 [서울신문], [한국일보], [중앙일보], [조선일보], [경향신문] 등의 논설위원을 두루 맡으면서 우리 시대의 가장 탁월한 논객으로 활약했다. [새벽] 주간으로 최인훈의 『광장』 전작을 게재했고, 월간 [문학사상]의 주간을 맡아 ‘문학의 상상력’과 ‘문화의 신바람’을 역설했다. 1966년 이화여자대학교 강단에 선 후 30여 년간 교수로 재직하여 수많은 제자들을 양성했다. 1988년 서울 올림픽 개폐회식 총괄 기획자로 ‘벽을 넘어서’라는 슬로건과 ‘굴렁쇠 소년’ ‘천지인’ 등의 행사로 전 세계에 한국인의 문화적 역량을 각인시켰다. 1990년 초대 문화부장관으로 취임하여 한국예술종합학교 설립과 국립국어원 발족의 굳건한 터를 닦았다. 2021년 금관문화 훈장을 받았다. 에세이 『흙 속에 저 바람 속에』 『하나의 나뭇잎이 흔들릴 때』 『지성의 오솔길』 『젊음의 탄생』 『한국인 이야기』, 문학평론 『저항의 문학』 『전후문학의 새물결』 『통금시대의 문학』, 문명론 『축소지향의 일본인』 『디지로그』 『가위바위보 문명론』 『생명이 자본이다』 등 160권이 넘는 방대한 저작물을 남겼다. 마르지 않는 지적 호기심과 창조적 상상력, 쉼 없는 말과 글의 노동으로 분열과 이분법의 낡은 벽을 넘어 통합의 문화와 소통의 새로운 패러다임을 끝없이 열어 보인 ‘시대의 지성’ 이어령은 2022년 2월 향년 89세를 일기로 영면에 들었다.'
+, '한국');
+
+select * from author_info ai ;
+
+INSERT INTO book_db.book_info
+(bi_title, bi_publisher, bi_pub_dt, bi_cate, bi_author_seq, bi_pay, bi_status)
+VALUES('이어령의 마지막 수업', 5, '2021-10-26', 15, 5|6 , 14850 , 0);
+
+select  * from book_info bi ;
+
+INSERT INTO book_db.book_author
+(ba_ai_seq, ba_bi_seq)
+VALUES
+(5, 5),
+(5, 6);
+
+select * from book_author ba 
+
+INSERT INTO book_db.book_detail
+(bd_page, bd_weight, bd_size, bd_sales, bd_bi_seq)
+VALUES(320, 480, '135*210*30mm', 460344, 5);
+
+
+INSERT INTO book_db.book_review
+(br_score, br_comment, br_mi_seq, br_bi_seq, br_status)
+VALUES
+(5, '재밌게 잘봤어요', 1, 5, 0),
+(2, '내가 이해하기엔 너무 어려운 고학력자들의 고상한 수다', 2, 5, 0),
+(4, '잘 읽었습니다.', 3, 5, 0),
+(5, '선물을 위해 재구매합니다.', 4, 5, 0),
+(5, '그저 좋습니다. 이어령 선생님의 책', 5, 5, 0),
+(5, '참교훈을 얻었습니다.', 6, 5, 0);
+
+-- create view author_detail_info as
+select *, group_concat(ai.ai_name) as author from book_author ba join author_info ai 
+on ai.ai_seq = ba.ba_ai_seq 
+group by ba_bi_seq ;
+
+select a.bi_title ,b.ba_ai_seq , group_concat(c.ai_name), d.bd_sales, e.avg_score
+from book_info a join book_author b on
+a.bi_seq = b.ba_bi_seq join author_info c
+on c.ai_seq = b.ba_ai_seq join book_detail d 
+on d.bd_bi_seq = a.bi_seq 
+join (
+select br.br_bi_seq ,avg(br.br_score) as avg_score from book_review br 
+group by br.br_bi_seq
+) e on e.br_bi_seq = a.bi_seq 
+group by b.ba_bi_seq;
+
+select br_bi_seq ,avg(br.br_score) from book_review br 
+group by br.br_bi_seq 
+
+select * from book_info bi 
+
+-- alter table book_info drop column bi_author;
+
+select mi.mi_id ,mi_name ,bi.bi_title , adi.author ,br.br_score ,br.br_comment  from member_info mi join book_review br 
+on mi_seq = br.br_mi_seq join book_info bi 
+on bi.bi_seq = br.br_bi_seq  join author_detail_info adi 
+on adi.ba_bi_seq =bi.bi_seq 
+
+select * from book_detail bd 
+
+-- create view book_view as
+select bi.bi_title , bi.bi_sub_title ,bi.bi_cate, bi.bi_pay , bd.bd_sales , adi.author  , avg(br.br_score) as score, pi2.pi_name 
+from book_info bi join book_detail bd 
+on bi.bi_seq = bd.bd_bi_seq
+join author_detail_info adi 
+on adi.ba_bi_seq = bi.bi_seq 
+join book_review br
+on bi_seq = br.br_bi_seq  join category_info ci 
+on bi.bi_cate = ci.ci_seq join publisher_info pi2 
+on pi2.pi_seq = bi_publisher 
+group by br.br_bi_seq;
+
+select * from book_view;
+select * from category_info ci;
 
