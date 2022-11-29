@@ -19,6 +19,8 @@
 -- Temporary view structure for view `score_summary`
 --
 
+-- create database school_db;
+
 DROP TABLE IF EXISTS `score_summary`;
 /*!50001 DROP VIEW IF EXISTS `score_summary`*/;
 SET @saved_cs_client     = @@character_set_client;

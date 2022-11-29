@@ -19,6 +19,8 @@
 -- Table structure for table `board_info`
 --
 
+-- create database board_db2;
+
 DROP TABLE IF EXISTS `board_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;

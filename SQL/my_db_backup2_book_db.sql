@@ -19,6 +19,8 @@
 -- Temporary view structure for view `author_detail_info`
 --
 
+-- create database book_db;
+
 DROP TABLE IF EXISTS `author_detail_info`;
 /*!50001 DROP VIEW IF EXISTS `author_detail_info`*/;
 SET @saved_cs_client     = @@character_set_client;
