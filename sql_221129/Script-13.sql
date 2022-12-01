@@ -473,7 +473,7 @@ SELECT * from product_ask pa ;
 
 SELECT * from review_help ;
 SELECT * from coupang_review cr ;
-DROP view review_like_cnt_view;
+-- DROP view review_like_cnt_view;
 
 -- create view review_like_cnt_view as
 SELECT a.rh_cr_seq,a.rh_type, count(*) as like_cnt, c.unlike_cnt FROM review_help a 
