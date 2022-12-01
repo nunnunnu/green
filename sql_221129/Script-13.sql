@@ -471,15 +471,48 @@ SELECT * from product_ask pa ;
 -- UPDATE product_ask set pa_pbi_seq = 19 where pa_pbi_seq =14;
 -- UPDATE product_detail_info  set pdi_pbi_seq = 18 where pdi_pbi_seq =13;
 
+SELECT * from review_help ;
+SELECT * from coupang_review cr ;
+DROP view review_like_cnt_view;
+
+-- create view review_like_cnt_view as
+SELECT a.rh_cr_seq,a.rh_type, count(*) as like_cnt, c.unlike_cnt FROM review_help a 
+left outer join (
+SELECT b.rh_cr_seq, b.rh_type, count(*) as unlike_cnt FROM review_help b
+where b.rh_type =2
+group by b.rh_cr_seq, b.rh_type
+) c on c.rh_cr_seq = a.rh_cr_seq 
+where a.rh_type =1
+group by a.rh_cr_seq, a.rh_type 
+UNION 
+SELECT a.rh_cr_seq,a.rh_type, ifnull(count(*),0) as like_cnt, c.unlike_cnt FROM review_help a 
+right outer join (
+SELECT b.rh_cr_seq, b.rh_type, ifnull(count(*),0) as unlike_cnt FROM review_help b
+where b.rh_type =2
+group by b.rh_cr_seq, b.rh_type
+) c on c.rh_cr_seq = a.rh_cr_seq 
+where a.rh_type =1
+group by a.rh_cr_seq, a.rh_type ;
+
+SELECT * from review_like_cnt_view;
+
 -- 모든 제품 리뷰 모아보기
-SELECT b.pbi_title ,c.mi_id, a.cr_title ,a.cr_view ,a.cr_date,a.cr_score  from coupang_review a
+SELECT b.pbi_title ,c.mi_id, a.cr_title ,a.cr_view ,a.cr_date,a.cr_score
+,ifnull(e.like_cnt,0) as like_cnt
+, ifnull(e.unlike_cnt,0) as unlike_cnt
+from coupang_review a
 right outer join product_basic_info b on a.cr_pbi_seq = b.pbi_seq 
-join member_info c on c.mi_seq = a.cr_mi_seq 
+join member_info c on c.mi_seq = a.cr_mi_seq  
+left outer join review_like_cnt_view e on e.rh_cr_seq = a.cr_seq 
 order by b.pbi_seq;
 -- 특정 제품 리뷰 모아보기
-SELECT b.pbi_title ,c.mi_id, a.cr_title ,a.cr_view ,a.cr_date,a.cr_score  from coupang_review a
+SELECT b.pbi_title ,c.mi_id, a.cr_title ,a.cr_view ,a.cr_date,a.cr_score
+,ifnull(e.like_cnt,0) as like_cnt
+, ifnull(e.unlike_cnt,0) as unlike_cnt
+from coupang_review a
 right outer join product_basic_info b on a.cr_pbi_seq = b.pbi_seq 
 join member_info c on c.mi_seq = a.cr_mi_seq 
+left outer join review_like_cnt_view e on e.rh_cr_seq = a.cr_seq 
 where a.cr_pbi_seq = 2
 order by b.pbi_seq;
 -- 모든 제품 문의 모아보기
@@ -709,28 +742,105 @@ where a.ue_ed_seq =2
 group by a.ue_re_seq
 )e on d.ue_re_seq = b.re_seq ;
 
-SELECT a.pbi_seq, a.pbi_title 
-,(d.child_cnt/c.cnt)*100 as '평가'
+-- 제품별 평가 항목
+SELECT a.pbi_seq, a.pbi_title,b.re_evaluation,d.ed_detail, (d.child_cnt/c.cnt)*100 as '평가'
 from product_basic_info a
 join review_evaluation b on b.re_pbi_seq = a.pbi_seq 
 join (
 SELECT ue_re_seq,count(*) as cnt from user_evaluation 
-where ue_re_seq =1
 group by ue_re_seq
 ) c on b.re_seq = c.ue_re_seq
 join (
 SELECT a.ue_re_seq, b.ed_detail , count(*) as child_cnt from user_evaluation a 
 join evaluation_detail b on b.ed_seq = a.ue_ed_seq 
 group by a.ue_re_seq, b.ed_detail
-)d on d.ue_re_seq = b.re_seq 
+)d on d.ue_re_seq = c.ue_re_seq;
+
+SELECT * from review_evaluation re ;
+SELECT * from evaluation_detail ed ;
+SELECT * FROM user_evaluation ue ;
+
+-- 특정 제품 평가 항목
+SELECT a.pbi_seq, a.pbi_title,b.re_evaluation,d.ed_detail, (d.child_cnt/c.cnt)*100 as '평가'
+from product_basic_info a
+join review_evaluation b on b.re_pbi_seq = a.pbi_seq 
 join (
-SELECT a.ue_re_seq, b.ed_detail , count(*) as child_cnt2 from user_evaluation a 
+SELECT ue_re_seq,count(*) as cnt from user_evaluation 
+group by ue_re_seq
+) c on b.re_seq = c.ue_re_seq
+join (
+SELECT a.ue_re_seq, b.ed_detail , count(*) as child_cnt from user_evaluation a 
 join evaluation_detail b on b.ed_seq = a.ue_ed_seq 
-where a.ue_ed_seq =2
-group by a.ue_re_seq
-)e on d.ue_re_seq = b.re_seq ;
+group by a.ue_re_seq, b.ed_detail
+)d on d.ue_re_seq = b.re_seq
+where a.pbi_seq =3;
 
+desc review_evaluation ;
 
+SELECT * from product_basic_info pbi ;
+INSERT INTO coupang_db.review_evaluation
+(re_pbi_seq, re_evaluation)
+VALUES
+(3, '사이즈'), -- 2
+(3, '색상'); -- 3
 
+INSERT INTO coupang_db.evaluation_detail
+(ed_re_seq, ed_detail)
+VALUES
+(2, '예상보다 작아요'),
+(2, '정사이즈예요'),
+(2, '예상보다 커요'),
+(3, '화면과 비슷해요'),
+(3, '화면과 같아요'),
+(3, '화면과 달라요');
+
+INSERT INTO coupang_db.user_evaluation
+(ue_re_seq, ue_ed_seq, ue_mi_seq)
+VALUES
+(2, 2, 0),
+(2, 2, 0),
+(2, 2, 0),
+(3, 1, 0),
+(3, 2, 0),
+(3, 2, 0);
+
+alter table review_help add column rh_type int;
+SELECT * from coupang_review cr ;
+INSERT INTO coupang_db.review_help
+(rh_mi_seq, rh_cr_seq, rh_type)
+VALUES
+(1, 1, 1),
+(2, 1, 1),
+(3, 1, 3),
+(4, 1, 1),
+(5, 1, 2),
+(6, 1, 1),
+(7, 1, 1),
+(8, 1, 2),
+(9, 1, 1),
+(10, 1, 1);
+alter table review_help add column rh_type int;
+SELECT * from coupang_review cr ;
+INSERT INTO coupang_db.review_help
+(rh_mi_seq, rh_cr_seq, rh_type)
+VALUES
+(1, 3, 2),
+(2, 3, 1),
+(3, 3, 3),
+(4, 3, 1),
+(5, 3, 1),
+(6, 3, 1),
+(7, 3, 1),
+(8, 3, 2),
+(9, 3, 2),
+(10, 1, 1);
+INSERT INTO coupang_db.review_help
+(rh_mi_seq, rh_cr_seq, rh_type)
+VALUES
+(1, 4, 1),
+(2, 4, 1),
+(3, 4, 1),
+(4, 4, 1),
+(5, 4, 1);
 
 
