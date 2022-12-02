@@ -27,7 +27,7 @@ from product_basic_info a
 left outer join product_buy_option c on c.pbo_pbi_seq = a.pbi_seq 
 join product_detail_info b on a.pbi_seq = b.pdi_pbi_seq 
 join category_info d on a.pbi_cate_seq = d.cate_seq 
-join (
+left outer join (
 SELECT cr_pbi_seq, avg(cr_score) as avg_score from coupang_review  
 group by cr_pbi_seq
 )e on e.cr_pbi_seq = a.pbi_seq 
