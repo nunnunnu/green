@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.book.bookpractice.entity.MemberInfoEntity;
 
 @Repository
-public interface MemberInfoRepository extends JpaRepository<MemberInfoEntity, Long> {
-    
+public interface MemberInfoRepository extends JpaRepository < MemberInfoEntity, Long > {
+
 }

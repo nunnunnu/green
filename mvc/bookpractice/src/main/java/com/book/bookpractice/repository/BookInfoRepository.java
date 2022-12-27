@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.book.bookpractice.entity.BookInfoEntity;
 @Repository
-public interface BookInfoRepository extends JpaRepository<BookInfoEntity, Long>{
-    
+public interface BookInfoRepository extends JpaRepository < BookInfoEntity, Long > {
+
 }
