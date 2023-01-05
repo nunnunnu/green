@@ -18,11 +18,11 @@ public class MainController {
 
      @Autowired AdminAccountRepository adminAccountRepository;
 
-     @GetMapping("/")
-     public String getMain(){
-          System.out.println("GetMain()(❁´◡`❁)(●'◡'●)╰(*°▽°*)╯☆*: .｡. o(≧▽≦)o .｡.:*☆");
-          return "/index";
-     }
+     // @GetMapping("/")
+     // public String getMain(){
+     //      System.out.println("GetMain()(❁´◡`❁)(●'◡'●)╰(*°▽°*)╯☆*: .｡. o(≧▽≦)o .｡.:*☆");
+     //      return "/index";
+     // }
      @GetMapping("/login")
      public String getLogin(HttpServletResponse response){
           response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -46,5 +46,23 @@ public class MainController {
           //session은 다른 URL로 들어가도 사용가능
           return "redirect:/"; //로그인성공하면 메인화면으로(파일경로아니고 매핑경로 기준.)
      }
-     
+     @GetMapping("/")
+     public String getMain(Model model, HttpSession session){
+          model.addAttribute("info", "model Info");
+          session.setAttribute("info2", "session Info");
+          return "/index";
+     }
+     @GetMapping("/index2")
+     public String getMain2(){
+          return "/index";  
+          //처음 들어가면 model, session 둘다 안뜨지만 위 메소드 매핑주소로 들어갔다가 /index2로 들어가면 session이 뜸
+          //model은 URL에 따라 달라지지만 session은 어느 URL에서도 동일함
+     }
+     @GetMapping("/logout")
+     public String getLogout(HttpSession session){
+          // session.invalidate(); //세션 정보 모두 삭제
+          session.setAttribute("loginUser", null); //session에 다른정보가 있다면
+          // session.removeAttribute("loginUser");
+          return "redirect:/";  
+     }
 }

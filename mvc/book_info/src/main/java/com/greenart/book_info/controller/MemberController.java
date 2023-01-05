@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.greenart.book_info.VO.AdminAccountVo;
+import com.greenart.book_info.VO.LoginUserVO;
 import com.greenart.book_info.entity.AdminAccountEntity;
 import com.greenart.book_info.repository.AdminAccountRepository;
 
@@ -89,8 +92,15 @@ public class MemberController {
           return "/login"; //가입 성공하면 바로 로그인페이지로
      }
      @GetMapping("/list")
-     public String getMemberList(Model model, Pageable pageable
+     public String getMemberList(
+          Model model, 
+          @PageableDefault(size=10, sort="aiSeq", direction =Sort.Direction.DESC) Pageable pageable,
+          HttpSession session
      ){
+          LoginUserVO login = (LoginUserVO)session.getAttribute("loginUser");
+          if(login == null){
+               return "redirect:/login";
+          }
           Page<AdminAccountEntity> page = aRepo.findAll(pageable);
           List<AdminAccountVo> result = new ArrayList<>();
           for(AdminAccountEntity a : page.getContent()){

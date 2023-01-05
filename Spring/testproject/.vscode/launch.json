@@ -1,0 +1,14 @@
+{
+     "configurations": [
+          {
+               "type": "java",
+               "name": "Spring Boot-TestprojectApplication<testproject>",
+               "request": "launch",
+               "cwd": "${workspaceFolder}",
+               "mainClass": "com.greenart.testproject.TestprojectApplication",
+               "projectName": "testproject",
+               "args": "",
+               "envFile": "${workspaceFolder}/.env"
+          }
+     ]
+}
