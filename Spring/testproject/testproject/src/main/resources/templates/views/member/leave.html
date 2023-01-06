@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+</head>
+<body>
+     <h1>회원탈퇴</h1>
+     <h2 style="color: red;">정말 탈퇴하시겠습니까?</h2>
+     <form action="/member/leave" method="post" id="leave_form">
+          <input type="checkbox" id="agree">
+          <label for="agree">회원탈퇴시 발생하는 손해에대해서 책임지겠습니다.</label>
+          <button id="leave">회원탈퇴</button>
+          <a href="/">메인으로</a>
+     </form>
+     <script>
+          document.getElementById("leave").addEventListener("click", function(e){
+               e.preventDefault();
+               if(!document.getElementById("agree").checked){
+                    alert("체크박스에 체크를 해주셔야 탈퇴 진행이 가능합니다.")
+                    return;
+               }
+               if(confirm("진짜 탈퇴하시겠습니까?")){
+                    alert("탈퇴");
+                    document.getElementById("leave_Form").submit();
+               }
+          })
+     </script>
+</body>
+</html>

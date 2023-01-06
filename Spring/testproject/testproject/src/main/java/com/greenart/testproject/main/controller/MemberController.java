@@ -11,8 +11,10 @@ import com.greenart.testproject.main.entity.User;
 import com.greenart.testproject.main.repository.UserRepository;
 import com.greenart.testproject.main.vo.LoginUserVO;
 import com.greenart.testproject.main.vo.LoginVo;
+import com.greenart.testproject.main.vo.UpdateUserVO;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 @Controller
 @RequestMapping("/member")
@@ -77,7 +79,41 @@ public class MemberController {
           return "/member/info";
      }
      @GetMapping("/detail")
-     public String getMemberDetail(){
+     public String getMemberDetail(HttpSession session){
+          if(session.getAttribute("loginUser")==null){
+               return "redirect:/";
+          }
           return "/member/detail";
+     }
+     @PostMapping("/update")
+     public String postMemberUpdate(UpdateUserVO data, HttpSession session, Model model){
+          System.out.println(data);
+          LoginUserVO user = (LoginUserVO)session.getAttribute("loginUser");
+          if(user==null){
+               model.addAttribute("message", "로그인 먼저 해주세요");
+               return "redirect:/member/login";
+          }
+          User entity = userRepo.findById(user.getNo()).get();
+          if(!data.getPwd().equals(entity.getUserPwd())){
+               model.addAttribute("message", "기존 비밀번호가 다릅니다.");
+               return "/member/detail";
+          }
+          entity = User.builder().userSeq(user.getNo()).userId(user.getId()).userPwd(data.getNew_pwd())
+          .userName(data.getName()).build();
+          userRepo.save(entity);
+          session.invalidate();
+          return "redirect:/";
+     }
+     @GetMapping("/leave")
+     public String getMemberLeave(){
+          return "/member/leave";
+     }
+     @PostMapping("/leave")
+     @Transactional
+     public String postMemberLeave(HttpSession session){
+          LoginUserVO user = (LoginUserVO)session.getAttribute("loginUser");
+          session.invalidate();
+          userRepo.deleteByUserId(user.getId());
+          return "redirect:/";
      }
 }

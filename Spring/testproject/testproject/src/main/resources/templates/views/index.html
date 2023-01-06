@@ -14,8 +14,8 @@
      </div>
      <div th:if="${session.loginUser!=null}">
           <p th:text="${session.loginUser.no}"></p>
-          <p th:text="${session.loginUser.id}"></p>
-          <p th:text="${session.loginUser.name}"></p>
+          <a href="/member/info" th:text="${session.loginUser.id}"></a>
+          <span th:text="${session.loginUser.name}"></span>
           <a href="/member/logout">로그아웃</a>
      </div>
 </body>

@@ -9,4 +9,6 @@ import com.greenart.testproject.main.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
      Integer countByUserId(String userId);
      public User findByUserIdAndUserPwd(String userId, String userPwd);
+     //delete from user_info where user_id = 'user_id'
+     public void deleteByUserId(String UserId);
 }
