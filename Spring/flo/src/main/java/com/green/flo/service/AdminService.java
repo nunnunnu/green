@@ -1,8 +1,9 @@
 package com.green.flo.service;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import com.green.flo.repository.AdminRepository;
 import com.green.flo.vo.AdminAddVo;
 import com.green.flo.vo.AdminInfoVO;
 import com.green.flo.vo.AdminLoginVO;
+import com.green.flo.vo.AdminUpdateVO;
 
 @Service
 public class AdminService {
@@ -88,6 +90,41 @@ public class AdminService {
 
      public AdminEntity getAdminInfo(Long admin_no){
           return adminRepository.findById(admin_no).get();
+     }
+
+     public Map<String, Object> updateAdminInfo(AdminUpdateVO data) {
+          Map<String, Object> map = new LinkedHashMap<>();
+          Optional<AdminEntity> entity = adminRepository.findById(data.getSeq());
+          String pattern = "^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$"; //정규표현식, 특수문자, 공백 제외 허용
+          if(entity.isEmpty()){
+               map.put("status", false);
+               map.put("message", "잘못된 사용자 정보가 입력되었습니다.");
+          }else if(data.getPwd().length()>16 || data.getPwd().length()<8){
+               map.put("status", false);
+               map.put("message", "비밀번호는 8~16자리로 입력해주세요.");
+          }else if(data.getPwd().replaceAll(" ", "").length()==0 ||
+               !Pattern.matches(pattern, data.getPwd())
+          ){
+               map.put("status", false);
+               map.put("message", "비밀번호에 특수문자 또는 공백을 사용할 수 없습니다.");
+          }else if(data.getName().replaceAll(" ", "").length()==0 ||
+               !Pattern.matches(pattern, data.getName())
+          ){
+               map.put("status", false);
+               map.put("message", "관리자 이름에 특수문자 또는 공백을 사용할 수 없습니다.");
+          }else{
+               AdminEntity e = entity.get();
+               e.setAdminPwd(data.getPwd());
+               e.setAdminName(data.getName());
+               e.setAdminStatus(data.getStatus());
+               e.setAdminGrade(data.getGrade());
+               adminRepository.save(e);
+               map.put("status", true);
+          }
+
+          
+          
+          return map;
      }
 
 

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+     <script>
+          // alert(document.getElementById("btn").innerHTML); //이거는 에러남. btn을 찾지못함
+          function clickBtn(){
+               // alert("버튼을 클릭했음");
+               document.getElementById("btn").style.border=0;
+               document.getElementById("btn").style.backgroundColor="#ff0000";
+               document.getElementById("btn").style.color="#ffffff";
+          }
+     </script>
+</head>
+<body>
+     <button id="btn" onclick="clickBtn()">클릭</button> 
+     <!-- Html 안의 내용이 모두 로드가 된 상태에서 클릭을 했기때문에 위의 함수가 실행이 됨 -->
+     <!-- 이벤트 함수 내에서는 가능하나 이벤트 함수 외에서는 안됨 -->
+</body>
+</html>
