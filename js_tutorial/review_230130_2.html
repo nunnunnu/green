@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8">
+     <title>Document</title>
+     <script>
+          //HTMl컨텐츠가 모두 로드된 후에 실행하라는 이벤트임
+          document.addEventListener("DOMContentLoaded", function(){
+               function helloClassChange(){
+                    const hello = document.getElementsByClassName("hello")
+                    for(let i=0;i<hello.length;i++){
+                         hello[i].innerHTML = "class hello "+(i+1)+"번째"
+                    }
+               }
+     
+               function pTagsChange(){
+                    const pTags = document.getElementsByTagName("p")
+                    for(let i=0;i<pTags.length;i++){
+                         pTags[i].innerHTML = "p 태그 "+(i+1)+"번째"
+                    } //p태그가 붙은건 전부 p태그 n번째로 출력됨
+               }
+     
+               function areaPTagsChange(){
+                    const areaPTags = document.querySelectorAll("#area>p") //id가 area인것중에 p태그
+                    for(let i=0;i<areaPTags.length;i++){
+                         areaPTags[i].innerHTML = "area PTag "+(i+1)+"번째"
+                         areaPTags[i].style.color = "#ff0000" //빨간색
+                    }
+               }
+               
+               document.getElementById("btn1").addEventListener("click", function(){
+                    document.getElementById("para").innerHTML = "Lorem"
+               })
+          }) //이렇게하면 script가 위에있어도 정상 작동됨
+
+     </script>
+</head>
+<body>
+     <p id="para">hello world!</p>
+     <p class="hello">hello1</p>
+     <p class="hello">hello2</p>
+     <p class="hello">hello3</p>
+     <div id="area">
+          <p>area pTage</p>
+          <p>area pTage</p>
+          <p>area pTage</p>
+          <span>ddd</span>
+     </div>
+     <!-- <button onclick="paraChange()">아이디가 para인 pTag변경</button>
+     <button onclick="helloClassChange()">클래스가 hello인 태그 변경</button>
+     <button onclick="pTagsChange()">전체 p태그 변경</button>
+     <button onclick="areaPTagsChange()">area안쪽의 p태그 변경</button> -->
+     <!-- 보통 버튼에 onclick으로 안넣음 -->
+     
+     <button id="btn1">아이디가 para인 pTag변경</button>
+     <button id="btn2">클래스가 hello인 태그 변경</button>
+     <button id="btn3">전체 p태그 변경</button>
+     <button id="btn4">area안쪽의 p태그 변경</button>
+     <!-- <script>
+          // document.getElementById("para").innerHTML = "Lorem" //html에 hello가아니라 Lorem이 출력됨
+          // document.getElementsByClassName("hello")[0].innerHTML = "첫번째" //html에 hello1이 아니라 첫번째가 출력됨
+          // document.getElementsByClassName("hello")[1].innerHTML = "두번째"
+          // document.getElementsByClassName("hello")[2].innerHTML = "세번째"
+
+          // const hello = document.getElementsByClassName("hello")
+          // for(let i=0;i<hello.length;i++){
+          //      hello[i].innerHTML = "class hello "+(i+1)+"번째"
+          // }
+          
+          // const pTags = document.getElementsByTagName("p")
+          // for(let i=0;i<hello.length;i++){
+          //      pTags[i].innerHTML = "p 태그 "+(i+1)+"번째"
+          // } //p태그가 붙은건 전부 p태그 n번째로 출력됨
+
+          //css 선택자 표현을 통한 선택
+          // const areaPTags = document.querySelectorAll("#area>p") //id가 area인것중에 p태그
+          // for(let i=0;i<areaPTags.length;i++){
+          //      areaPTags[i].innerHTML = "area PTag "+(i+1)+"번째"
+          //      areaPTags[i].style.color = "#ff0000" //빨간색
+          // }
+          
+          // function paraChange(){
+          //      document.getElementById("para").innerHTML = "Lorem"
+          // }
+
+          function helloClassChange(){
+               const hello = document.getElementsByClassName("hello")
+               for(let i=0;i<hello.length;i++){
+                    hello[i].innerHTML = "class hello "+(i+1)+"번째"
+               }
+          }
+
+          function pTagsChange(){
+               const pTags = document.getElementsByTagName("p")
+               for(let i=0;i<pTags.length;i++){
+                    pTags[i].innerHTML = "p 태그 "+(i+1)+"번째"
+               } //p태그가 붙은건 전부 p태그 n번째로 출력됨
+          }
+
+          function areaPTagsChange(){
+               const areaPTags = document.querySelectorAll("#area>p") //id가 area인것중에 p태그
+               for(let i=0;i<areaPTags.length;i++){
+                    areaPTags[i].innerHTML = "area PTag "+(i+1)+"번째"
+                    areaPTags[i].style.color = "#ff0000" //빨간색
+               }
+          }
+          // document.getElementById("btn1").addEventListener("click", paraChange)
+          // document.getElementById("btn2").addEventListener("click", helloClassChange)
+          // document.getElementById("btn3").addEventListener("click", pTagsChange)
+          // document.getElementById("btn4").addEventListener("click", areaPTagsChange)
+          //이것도 완전한 이벤트연결은 아님. 다른쪽에서 위의 함수들을 쓸 수 있어서 
+          //버튼을 눌렀을때만 사용하는 함수라면 문제가 생김. 
+          
+          document.getElementById("btn1").addEventListener("click", function(){
+               document.getElementById("para").innerHTML = "Lorem"
+          })
+          //btn1버튼을 눌렀을때만 동작하는 함수로 변경됨. 외부에서 호출 불가능함.
+          //가장 많이 사용하는 방법임
+          //이걸 어나미머스 펑션(이름없는 함수)라고 부름
+
+     </script> -->
+</body>
+</html>
