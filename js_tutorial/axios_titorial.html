@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+     <style>
+          #pager_area > button {
+               border: 0; background-color: white; border-radius: 50%;
+               width: 20px; height: 20px; margin: 3px;
+               color:gray; cursor:pointer
+          }    
+          #pager_area> button:hover{color:white; background-color: gray;}
+          #pager_area> button.current{
+               font-weight: bold;
+               color: white; background-color: black;
+          }
+     </style>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.6/axios.min.js" integrity="sha512-RUkwGPgBmjCwqXpCRzpPPmGl0LSFp9v5wXtmG41+OS8vnmXybQX5qiG5adrIhtO03irWCXl+z0Jrst6qeaLDtQ==" crossorigin="anonymous" referrerpolicy="no-referrer"> 
+     </script>
+     <script>
+          document.addEventListener("DOMContentLoaded", function(){
+               loadGenreList()
+               document.getElementById("search_area").addEventListener("submit", function(event){
+                    event.preventDefault();
+                    //form태그의 요청 기능을 제거하는 코드. 
+                    //검색 시 enter단축키 사용을 위해 div에서 form으로 변경한 뒤 기본으로 설정된 요청기능을 삭제한거임
+               })
+               document.getElementById("search").addEventListener("click", function(){
+                    const keyword = document.getElementById("keyword").value
+                    loadGenreList(0,keyword)
+               })
+          })
+          function deleteCategory(no){
+               if(!confirm("카테고리를 삭제하시겠습니까?")) return
+               axios.delete("http://localhost:8585/api/genre/delete?genre_no="+no) //DeleteMapping
+               .then(function(result){
+                    alert(result.data.message)
+                    loadGenreList()
+               })
+          }
+          function loadGenreList(page, keyword){
+               if(page==null || page ==undefined){ //undefined - 아직 정의되지않음
+                    page=0
+               }
+               if(keyword==null || keyword==undefined){
+                    keyword=""
+               }
+               axios.get("http://localhost:8585/api/genre/list?page="+page+"&keyword="+keyword) //GetMapping
+               .then(function(result){
+                    console.log(result)
+                    const genreList =result.data.list
+                    let tbody_content=""
+                    for(let i=0;i<genreList.length;i++){
+                         tbody_content+=
+                         '<tr>'+
+                              '<td>'+genreList[i].genreSeq+'</td>'+
+                              '<td>'+
+                                   '<a href="#">'+genreList[i].genreName+'</a>'+
+                              '<td>'+
+                                   '<button onclick="deleteCategory('+genreList[i].genreSeq+')">삭제</button>'+
+                              '</td>'+
+                         '</tr>'
+                    }
+                    document.querySelector("#list_table>tbody").innerHTML = tbody_content
+                    const totalPage = result.data.totalPage
+                    const currentPage = result.data.currentPage
+                    let pager_content = "";
+                    for(let i=0;i<totalPage;i++){
+                         if(i==currentPage){
+                              pager_content+='<button class="current" onclick="loadGenreList('+i+')">'+(i+1)+'</button>'
+                         }else{
+                              pager_content+='<button onclick="loadGenreList('+i+')">'+(i+1)+'</button>'
+                         }
+                    }
+                    document.getElementById("pager_area").innerHTML = pager_content
+               })
+          }
+     </script>
+</head>
+<body>
+     <table id="list_table">
+          <thead>
+               <tr>
+                    <th>번호</th>
+                    <th>장르명</th>
+               </tr>
+          </thead>
+          <tbody>
+               <tr>
+                    <td>123</td>
+                    <td>
+                         <a href="#">장르이름</a>
+                    <td>
+                         <button>삭제</button>
+                    </td>
+               </tr>
+          </tbody>
+     </table>
+     <br>
+     <form id="search_area">
+          <input type="text" id="keyword">
+          <button id="search">검색</button>
+     </form>
+     <br>
+     <div id="pager_area">
+          
+     </div>
+</body>
+</html>
