@@ -16,10 +16,11 @@
                font-weight: bold;
                color: white; background-color: black;
           }
+          #genre_add_wrap {display: none;}
      </style>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.6/axios.min.js" integrity="sha512-RUkwGPgBmjCwqXpCRzpPPmGl0LSFp9v5wXtmG41+OS8vnmXybQX5qiG5adrIhtO03irWCXl+z0Jrst6qeaLDtQ==" crossorigin="anonymous" referrerpolicy="no-referrer"> 
      </script>
-     <script>
+     <!-- <script>
           document.addEventListener("DOMContentLoaded", function(){
                let userInfo = sessionStorage.getItem("user")
                console.log(userInfo)
@@ -35,9 +36,35 @@
                     location.href = "/login.html";
                })
           })
-     </script>
+     </script> -->
      <script>
+          function elemId(id){
+               return document.getElementById(id);
+          }
           document.addEventListener("DOMContentLoaded", function(){
+               document.getElementById("genre_popup_btn").addEventListener("click", function(){
+                    document.getElementById("genre_add_wrap").style.display="block"
+               })
+               elemId("genre_add_form").addEventListener("submit",(e) => { e.preventDefault() })
+               elemId("genre_add_btn").addEventListener("click", function(){
+                    let name = elemId("genre_name").value
+                    // alert(name)
+                    axios.put("http://localhost:8585/api/genre/add?name="+name)
+                    .then((result)=>{ //성공 (응답코드 100~399)
+                         console.log(result)
+                         if(result.data.status){
+                              alert(result.data.message)
+                              elemId("genre_add_wrap").style.display="";
+                              loadGenreList();
+                              elemId("genre_name").value="";
+                         }else{
+                              elemId("add_err_msg").innerHTML = result.data.message
+                         }
+                    })
+                    .catch((error)=>{ //실패 (응답코드 400~599)
+                         console.log(error)
+                    })
+               })
                loadGenreList()
                document.getElementById("search_area").addEventListener("submit", function(event){
                     event.preventDefault();
@@ -103,6 +130,8 @@
                <span id="id"></span><span id="name"></span>님
                <button id="logout">로그아웃</button></div>
      </header>
+     <br>
+     <button id="genre_popup_btn">장르정보 추가</button>
      <table id="list_table">
           <thead>
                <tr>
@@ -129,6 +158,17 @@
      <br>
      <div id="pager_area">
           
+     </div>
+     <!-- #genre_add_wrap>#genre_add>(h2+form#genre_add_form>(input#genre_name+p#add_err_msg+button#genre_add_btn)) --> <!-- 아래 form만드는 단축키 -->
+     <div id="genre_add_wrap">
+          <div id="genre_add">
+               <h3>장르정보 추가</h3>
+               <form id="genre_add_form">
+                    <input type="text" id="genre_name">
+                    <p id="add_err_msg"></p>
+                    <button id="genre_add_btn">추가</button>
+               </form>
+          </div>
      </div>
 </body>
 </html>
