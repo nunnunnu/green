@@ -61,7 +61,11 @@ public class GenreService {
      }
      public Map<String, Object> updateGenreInfo(Long no, String name) {
           Map<String, Object> map = new LinkedHashMap<>();
+          System.out.println(no);
+          System.out.println(name);
           Optional<GenreEntity> entityOpt = genreRepository.findById(no);
+          System.out.println(entityOpt);
+          System.out.println(genreRepository.countByGenreName(name)!=0);
           
           if(entityOpt.isEmpty()){
                map.put("updated", false);
