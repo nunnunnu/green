@@ -22,3 +22,28 @@ flo:
           musicfildes: /home/flo/music/files
           userImg: /home/flo/user/img
           albumImg: /home/flo/album/img
+
+# Swagger Settings
+springdoc:
+     #요청 데이터 형태
+     default-consumes-media-type: application/json
+     #응답 데이터 형태
+     default-produces-media-type: application/json
+     api-docs:
+          #API문서 그룹화 여부
+          groups:
+               enabled: true
+     swagger-ui:
+          #정렬 기준 (알파벳 기준)
+          operations-sorter: alpha
+          tags-sorter: alpha
+          #swagger 접근 기본 경로
+          path: /swagger
+          #기본 경로 비활성화 여부
+          disable-swagger-default-url: true
+          #문서확장기능 사용가능 여부
+          doc-expansion: none
+     paths-to-match:
+          #문서로 만들 API 요청 경로 목록(요청경로가 /api/로 시작하면 모두 문서화)
+          # - 는 list표현임. 밑에 -/views/** 이런식으로 추가하면됨
+          - /api/**

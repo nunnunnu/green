@@ -12,19 +12,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.green.flo.entity.GenreEntity;
 import com.green.flo.repository.GenreRepository;
+import com.green.flo.vo.GenreListResponseVO;
 
 @Service
 public class GenreService {
      @Autowired GenreRepository genreRepository;
 
-     public Map<String, Object> getGenreList(String keyword, Pageable pageable) {
+     public GenreListResponseVO getGenreList(String keyword, Pageable pageable) {
           Page<GenreEntity> page = genreRepository.findByGenreNameContains(keyword, pageable);
-          Map<String, Object> map = new LinkedHashMap<>();
-          map.put("list", page.getContent());
-          map.put("total", page.getTotalElements());
-          map.put("totalPage", page.getTotalPages());
-          map.put("currentPage", page.getNumber());
-          return map;
+          GenreListResponseVO response = GenreListResponseVO.builder()
+          .list(page.getContent())
+          .total(page.getTotalElements())
+          .totalPage(page.getTotalPages())
+          .currentPage(page.getNumber())
+          .build();
+          return response;
      }
      public Map<String, Object> addGenreInfo(String name){
           Map<String, Object> resultMap = new LinkedHashMap<>();

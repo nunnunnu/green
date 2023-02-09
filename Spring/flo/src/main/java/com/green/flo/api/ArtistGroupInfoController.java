@@ -26,6 +26,8 @@ public class ArtistGroupInfoController {
         ArtistGroupInfoInsertVO data,
         MultipartFile img //폼데이터로 받는 방법임
     ){
+        System.out.println(data);
+        System.out.println(img);
         Map<String, Object> map = agiService.addArtistGroupInfo(data, img);
 
         return new ResponseEntity<>(map, HttpStatus.OK);

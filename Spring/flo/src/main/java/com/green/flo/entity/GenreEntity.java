@@ -1,5 +1,6 @@
 package com.green.flo.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +20,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GenreEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Schema(description="장르번호", example="1")
      @Column(name="genre_seq") private Long genreSeq;
+     @Schema(description="장르 명", example="K-POP")
      @Column(name="genre_name") private String genreName;
 }
