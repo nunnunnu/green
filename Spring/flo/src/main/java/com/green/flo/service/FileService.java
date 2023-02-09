@@ -34,8 +34,8 @@ public class FileService {
         String contentType = "image/*";
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
-        .header(HttpHeaders.CONTENT_DISPOSITION, 
-        "attachment; filename=\""+URLEncoder.encode(r.getFilename(), "UTF-8"))
-        .body(r);
+            .header(HttpHeaders.CONTENT_DISPOSITION, 
+            "attachment; filename=\""+URLEncoder.encode(r.getFilename(), "UTF-8"))
+            .body(r);
     }
 }

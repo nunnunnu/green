@@ -11,12 +11,49 @@
     <script src="js/artistgroup.js"></script>
 </head>
 <body>
+    <h2>아티스트 그룹 등록</h2>
     <input type="file" accept="image/png, image/gif, image/jpeg" id="imgfile">
     <img src="" id="preview">
     <br>
     <span>아티스트 그룹 명 </span><input type="text" id="name" placeholder="name"><br>
     <span>데뷔 연도 </span><input type="number" id="debut" placeholder="bebut"><br>
-    <span>기획사 </span><input type="number" id="company" placeholder="company"><br>
+    <span>기획사 </span>
+        <input type="number" id="company" placeholder="company" hidden>
+        <span id="company_name"> - </span>
+    <button id="company_sel">기획사 선택</button>
+    <br>
+    <br>
     <button id="save">저장</button>
+    <div class="company_wrap">
+        <div class="company_popup">
+            <h3>기획사</h3>
+            <div class="popup_search_area">
+                <input type="text" id="search_keyword">
+                <button id="search_btn">검색</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>순번</th>
+                        <th>기획사 명</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>기획사명</td>
+                        <td>
+                            <button>선택</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <div class="popup_pager_area">
+
+            </div>
+        </div>
+    </div>
 </body>
 </html>
