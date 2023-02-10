@@ -21,17 +21,19 @@ public class FileService {
         //파일이 저장될 경로
         Path targetLocation = Paths.get("/home/flo/images/"+type);
         //파일저장위치 + 파일명 -> 파일 저장 경로
-        targetLocation.resolve(image.getOriginalFilename());
+        targetLocation = targetLocation.resolve(image.getOriginalFilename());
         //입력된 파일을 저장될 위치에 복사
         Files.copy(image.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
         //저장된 위치를 문자열로 변환해서 내어줌
-        return targetLocation.toString();
+        // return targetLocation.toString();
+        return image.getOriginalFilename();
     }
 
-    public ResponseEntity<Resource> getImageFile(String location) throws Exception{
-        Path imgLocation = Paths.get(location).normalize();
+    public ResponseEntity<Resource> getImageFile(String type, String filename) throws Exception{
+        // Path imgLocation = Paths.get(location).normalize();
+        Path imgLocation = Paths.get("/home/flo/images/"+type+"/"+filename).normalize();
         Resource r = new UrlResource(imgLocation.toUri());
-        String contentType = "image/*";
+        String contentType = "image/jpeg";
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
             .header(HttpHeaders.CONTENT_DISPOSITION, 

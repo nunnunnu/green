@@ -11,47 +11,82 @@
     <script src="js/artistgroup.js"></script>
 </head>
 <body>
-    <h2>아티스트 그룹 등록</h2>
-    <input type="file" accept="image/png, image/gif, image/jpeg" id="imgfile">
-    <img src="" id="preview">
-    <br>
-    <span>아티스트 그룹 명 </span><input type="text" id="name" placeholder="name"><br>
-    <span>데뷔 연도 </span><input type="number" id="debut" placeholder="bebut"><br>
-    <span>기획사 </span>
-        <input type="number" id="company" placeholder="company" hidden>
-        <span id="company_name"> - </span>
-    <button id="company_sel">기획사 선택</button>
-    <br>
-    <br>
-    <button id="save">저장</button>
-    <div class="company_wrap">
-        <div class="company_popup">
-            <h3>기획사</h3>
-            <div class="popup_search_area">
-                <input type="text" id="search_keyword">
-                <button id="search_btn">검색</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>순번</th>
-                        <th>기획사 명</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>기획사명</td>
-                        <td>
-                            <button>선택</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="artist_grp_list">
+        <h2>아티스트 리스트</h2>
+        <div class="artist_grp_search">
+            <form id="artist_grp_search_form">
+                <input type="text" id="artist_grp_keyword" placeholder="그룹명">
+                <button id="artist_grp_search">검색</button>
+            </form>
             <br>
-            <div class="popup_pager_area">
+        </div>
+        <table>
+            <thead>
+                <th>번호</th>
+                <th>이미지</th>
+                <th>그룹명</th>
+                <th>데뷔연도</th>
+                <th>소속사</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <td>1</td>
+                <td>이미지</td>
+                <td>ㅇㅇ</td>
+                <td>2020</td>
+                <td>ㅁㅁㅁ</td>
+                <td>aa</td>
+            </tbody>
+        </table>
+        <div class="artist_grp_pager">
 
+        </div>
+
+    </div>
+    <div class="artist_grp_add_area">
+        <!-- <img src="http://localhost:8585/images/artist_group/화면 캡처 2023-02-08 113930.png"> 이미지다운 확인용 -->
+        <h2>아티스트 그룹 등록</h2>
+        <input type="file" accept="image/png, image/gif, image/jpeg" id="imgfile">
+        <img src="" id="preview">
+        <br>
+        <span>아티스트 그룹 명 </span><input type="text" id="name" placeholder="name"><br>
+        <span>데뷔 연도 </span><input type="number" id="debut" placeholder="bebut"><br>
+        <span>기획사 </span>
+            <input type="number" id="company" placeholder="company" hidden>
+            <span id="company_name"> - </span>
+        <button id="company_sel">기획사 선택</button>
+        <br>
+        <br>
+        <button id="save">저장</button>
+        <div class="company_wrap">
+            <div class="company_popup">
+                <h3>기획사</h3>
+                <div class="popup_search_area">
+                    <input type="text" id="search_keyword">
+                    <button id="search_btn">검색</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>순번</th>
+                            <th>기획사 명</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>기획사명</td>
+                            <td>
+                                <button>선택</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <div class="popup_pager_area">
+
+                </div>
             </div>
         </div>
     </div>

@@ -19,13 +19,17 @@ document.addEventListener("DOMContentLoaded", function(){
         formData.append("debutYear", elemId("debut").value)
         formData.append("company", elemId("company").value)
         formData.append("img", elemId("imgfile").files[0])
-        console.log(formData.get("name"))
-        console.log(formData.get("debutYear"))
-        console.log(formData.get("company"))
-        console.log(formData.get("img"))
         axios.put("http://localhost:8585/api/artist/group/insert", formData)
         .then(function(result){
-            console.log(result)
+            alert(result.data.message)
+            elemId("name").value = ""
+            elemId("debut").value = ""
+            elemId("company").value = ""
+            elemId("imgfile").value = ""
+            elemId("preview").src = ""
+            elemId("company").value = ""
+            elemId("company_name").innerHTML = ""
+
         })
         .catch(function(err){
             console.log(err)
@@ -36,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function(){
     })
 })
 
-const baseURL = "http://localhost:8585/api"
 function getCompanyList(page, keyword){
     let url = baseURL + "/company/list"
     let params = {} //axios방식
@@ -83,3 +86,14 @@ function selectCompany(seq, name){
     elemId("company").value = seq    
     elemId("company_name").innerHTML = name        
 }
+
+function getArtistGroupList(page, keyword){
+    if(page==null || page == undefined || page == "") page = 0
+    if(keyword==null || keyword==undefined) keyword=""
+    axios.get(baseURL+"/artist/group/list",{params : {page:page, keyword:keyword}})
+    .then(function(result){
+        console.log(result)
+    })
+
+}
+getArtistGroupList()

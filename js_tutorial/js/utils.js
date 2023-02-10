@@ -2,3 +2,5 @@
 function elemId(id) {
     return document.getElementById(id);
 }
+
+const baseURL = "http://localhost:8585/api"
