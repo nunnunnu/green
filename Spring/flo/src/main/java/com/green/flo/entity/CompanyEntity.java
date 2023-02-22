@@ -19,6 +19,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CompanyEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-     @Column(name="pub_seq") private Long pubSeq;
-     @Column(name="pub_name") private String pubName;
+     @Column(name="pub_seq") private Long seq;
+     @Column(name="pub_name") private String name;
 }

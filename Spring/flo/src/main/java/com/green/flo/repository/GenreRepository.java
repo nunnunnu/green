@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.green.flo.entity.GenreEntity;
 @Repository
 public interface GenreRepository extends JpaRepository<GenreEntity, Long>{
-     public Page<GenreEntity> findByGenreNameContains(String genreName, Pageable pageable);
-     public Integer countByGenreName(String name);
+     public Page<GenreEntity> findByNameContains(String genreName, Pageable pageable);
+     public Integer countByName(String name);
 }

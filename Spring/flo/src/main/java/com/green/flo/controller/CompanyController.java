@@ -26,7 +26,7 @@ public class CompanyController {
 
      @GetMapping("/list")
      public String getCompanyList(Model model, @RequestParam @Nullable String keyword, 
-     @PageableDefault(size=10, sort="pubSeq", direction=Sort.Direction.DESC) Pageable pageable, HttpSession session){
+     @PageableDefault(size=10, sort="seq", direction=Sort.Direction.DESC) Pageable pageable, HttpSession session){
           if(keyword==null){
                keyword="";
           }
@@ -40,14 +40,14 @@ public class CompanyController {
           return "/company/add";
      }
      @GetMapping("/detail")
-     public String getCompanyDetail(@RequestParam Long company_no,
+     public String getCompanyDetail(@RequestParam Long no,
           @RequestParam @Nullable Integer page,
           @RequestParam @Nullable String keyword,
           Model model
      ){
           if(page==null){page=0;}
           if(keyword==null){keyword="";}
-          Map<String, Object> map = companyService.selectCompanyInfo(company_no);
+          Map<String, Object> map = companyService.selectCompanyInfo(no);
           map.put("message", null);
           model.addAttribute("company", map);
           model.addAttribute("page", page);
@@ -58,7 +58,7 @@ public class CompanyController {
      @PostMapping("/update")
      public String postCompanyUpdate(Long no, String name, Model model){
           Map<String, Object> resultMap = companyService.updateCompanyInfo(no, name);
-          if((Boolean)resultMap.get("updated")){
+          if((Boolean)resultMap.get("status")){
 
                return "redirect:/company/list";
           }else{
@@ -81,8 +81,8 @@ public class CompanyController {
           }
      }
      @GetMapping("/delete")
-     public String getCompanyDelete(@RequestParam Long company_no){
-          companyService.deleteCompany(company_no);
+     public String getCompanyDelete(@RequestParam Long no){
+          companyService.deleteCompany(no);
           return "redirect:/company/list";
      }
 

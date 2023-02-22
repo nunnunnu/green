@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class GenreEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Schema(description="장르번호", example="1")
-     @Column(name="genre_seq") private Long genreSeq;
+     @Column(name="genre_seq") private Long seq;
      @Schema(description="장르 명", example="K-POP")
-     @Column(name="genre_name") private String genreName;
+     @Column(name="genre_name") private String name;
 }

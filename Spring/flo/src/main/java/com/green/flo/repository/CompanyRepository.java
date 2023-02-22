@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.green.flo.entity.CompanyEntity;
 @Repository
 public interface CompanyRepository extends JpaRepository<CompanyEntity, Long>{
-     public Page<CompanyEntity> findByPubNameContains(String companyName, Pageable pageable);
-     public Integer countByPubName(String name);
+     public Page<CompanyEntity> findByNameContains(String companyName, Pageable pageable);
+     public Integer countByName(String name);
 }

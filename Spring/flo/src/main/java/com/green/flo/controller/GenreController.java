@@ -26,7 +26,7 @@ public class GenreController {
 
      @GetMapping("/list")
      public String getGenreList(Model model, @RequestParam @Nullable String keyword, 
-     @PageableDefault(size=10, sort="genreSeq", direction=Sort.Direction.DESC) Pageable pageable, HttpSession session){
+     @PageableDefault(size=10, sort="seq", direction=Sort.Direction.DESC) Pageable pageable, HttpSession session){
           if(keyword==null){
                keyword="";
           }
@@ -40,14 +40,14 @@ public class GenreController {
           return "/genre/add";
      }
      @GetMapping("/detail")
-     public String getGenreDetail(@RequestParam Long genre_no,
+     public String getGenreDetail(@RequestParam Long no,
           @RequestParam @Nullable Integer page,
           @RequestParam @Nullable String keyword,
           Model model
      ){
           if(page==null){page=0;}
           if(keyword==null){keyword="";}
-          Map<String, Object> map = genreService.selectGenreInfo(genre_no);
+          Map<String, Object> map = genreService.selectGenreInfo(no);
           map.put("message", null);
           model.addAttribute("genre", map);
           model.addAttribute("page", page);
@@ -58,7 +58,7 @@ public class GenreController {
      @PostMapping("/update")
      public String postGenreUpdate(Long no, String name, Model model){
           Map<String, Object> resultMap = genreService.updateGenreInfo(no, name);
-          if((Boolean)resultMap.get("updated")){
+          if((Boolean)resultMap.get("status")){
 
                return "redirect:/genre/list";
           }else{
@@ -81,8 +81,8 @@ public class GenreController {
           }
      }
      @GetMapping("/delete")
-     public String getGenreDelete(@RequestParam Long genre_no){
-          genreService.deleteGenre(genre_no);
+     public String getGenreDelete(@RequestParam Long no){
+          genreService.deleteGenre(no);
           return "redirect:/genre/list";
      }
 

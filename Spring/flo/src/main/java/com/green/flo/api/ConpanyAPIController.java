@@ -29,7 +29,7 @@ public class ConpanyAPIController {
 
      @GetMapping("/list")
      public ResponseEntity<Object> getCompanyList(@RequestParam @Nullable String keyword, 
-     @PageableDefault(size=10, sort="pubSeq", direction=Sort.Direction.DESC) Pageable pageable,
+     @PageableDefault(size=10, sort="seq", direction=Sort.Direction.DESC) Pageable pageable,
           HttpSession session
      ){
           if(keyword==null){
@@ -41,13 +41,13 @@ public class ConpanyAPIController {
      }
 
      @GetMapping("/detail")
-     public ResponseEntity<Object> getCompanyDetail(@RequestParam Long company_no,
+     public ResponseEntity<Object> getCompanyDetail(@RequestParam Long no,
           @RequestParam @Nullable Integer page,
           @RequestParam @Nullable String keyword
      ){
           if(page==null){page=0;}
           if(keyword==null){keyword="";}
-          Map<String, Object> map = companyService.selectCompanyInfo(company_no);
+          Map<String, Object> map = companyService.selectCompanyInfo(no);
           // map.put("message", null);
           // model.addAttribute("company", map);
           // model.addAttribute("page", page);
@@ -72,9 +72,9 @@ public class ConpanyAPIController {
           return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
      }
      @DeleteMapping("/delete")
-     public ResponseEntity<Object> getCompanyDelete(@RequestParam Long company_no){
+     public ResponseEntity<Object> getCompanyDelete(@RequestParam Long no){
           Map<String, Object> map = new LinkedHashMap<>();
-          companyService.deleteCompany(company_no);
+          companyService.deleteCompany(no);
           map.put("message", "회사 정보를 삭제했습니다.");
           return new ResponseEntity<>(map, HttpStatus.ACCEPTED);
      }
