@@ -9,10 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name="artist_group_info")
@@ -20,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 public class ArtistGroupInfoEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description="아티스트 그룹 번호", example="1")

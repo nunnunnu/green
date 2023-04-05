@@ -13,5 +13,7 @@ public interface AdminRepository extends JpaRepository<AdminEntity, Long> {
      public Integer countByAdminId(String id);
 
      public Page<AdminEntity> findByAdminIdContains(String adminId, Pageable pageable);
+
+    AdminEntity findByAdminId(String username);
 }
 

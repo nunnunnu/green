@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArtistGroupInfoInsertVO {
+    private Long grpNo;
     private String name;
     private Integer debutYear;
     private Long company; //소속사 번호

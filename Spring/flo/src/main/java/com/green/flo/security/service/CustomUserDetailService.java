@@ -1,7 +1,7 @@
-package com.example.security_test.security.service;
+package com.green.flo.security.service;
 
-import com.example.security_test.mapper.MemberMapper;
-import com.example.security_test.vo.entity.MemberInfoVO;
+import com.green.flo.entity.AdminEntity;
+import com.green.flo.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,16 +13,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
-    private final MemberMapper memberMapper;
+    private final AdminRepository aRepo;
     private final PasswordEncoder passwordEncoder;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return createUserDetails(memberMapper.getMemberInfoByMemberId(username)); //자동실행 메소드
+        return createUserDetails(aRepo.findByAdminId(username)); //자동실행 메소드
     }
-    public UserDetails createUserDetails(MemberInfoVO member) {
-        return User.builder().username(member.getMi_id())
-                .password(passwordEncoder.encode(member.getMi_pwd()))
-                .roles(member.getMi_role())
+    public UserDetails createUserDetails(AdminEntity admin) {
+        return User.builder().username(admin.getAdminId())
+                .password(passwordEncoder.encode(admin.getAdminPwd()))
+                .roles(admin.getAdminRole())
                 .build(); //저장
     }
 }

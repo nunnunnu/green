@@ -14,8 +14,8 @@ spring:
      servlet:
           multipart:
                enabled: true
-               max-file-size: 100MB
-               max-request-size: 110MB
+               max-file-size: 10000000MB
+               max-request-size: 110000000MB
 flo: 
      file: 
           adminImg: /home/flo/admin/img
@@ -47,3 +47,14 @@ springdoc:
           #문서로 만들 API 요청 경로 목록(요청경로가 /api/로 시작하면 모두 문서화)
           # - 는 list표현임. 밑에 -/views/** 이런식으로 추가하면됨
           - /api/**
+jwt:
+     secretKey: ssssaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+permission:
+     permit-all-urls:
+#          - /api/member/login
+#          - /api/member/join
+          - /api/admin/login
+          - /images/**
+          - /swagger/**
+          - /swagger-ui/**
+          - /v3/api-docs/**

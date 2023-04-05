@@ -11,13 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.green.flo.service.GenreService;
 import com.green.flo.vo.GenreListResponseVO;
@@ -49,8 +43,8 @@ public class GenreAPIController {
           return new ResponseEntity<>(genreService.getGenreList(keyword, pageable), HttpStatus.OK);
      }
      @Operation(summary="장르 상세", description = "장르를 상세조회합니다.")
-     @GetMapping("/detail")
-     public ResponseEntity<Object> getGenreDetail(@RequestParam Long no,
+     @GetMapping("/{no}")
+     public ResponseEntity<Object> getGenreDetail(@PathVariable Long no,
           @RequestParam @Nullable Integer page,
           @RequestParam @Nullable String keyword
      ){
@@ -68,22 +62,22 @@ public class GenreAPIController {
           }
      }
      @Operation(summary="장르정보 수정", description = "장르의 정보를 수정합니다.")
-     @PatchMapping("/update")
-     public ResponseEntity<Object> postGenreUpdate(@RequestParam Long no,@RequestParam String name){
+     @PatchMapping("/{name}/{no}")
+     public ResponseEntity<Object> postGenreUpdate(@PathVariable Long no,@PathVariable String name){
           Map<String, Object> resultMap = genreService.updateGenreInfo(no, name);
           
           return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
      }
      @Operation(summary="장르 추가", description = "장르 정보를 추가합니다.")
-     @PutMapping("/add")
-     public ResponseEntity<Object> postGenreAdd(@RequestParam String name){
+     @PutMapping("/{name}")
+     public ResponseEntity<Object> postGenreAdd(@PathVariable String name){
           System.out.println(name);
           Map<String, Object> resultMap = genreService.addGenreInfo(name);
           return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
      }
      @Operation(summary="장르 삭제", description = "장르 정보를 삭제합니다.")
-     @DeleteMapping("/delete")
-     public ResponseEntity<Object> getGenreDelete(@RequestParam Long no){
+     @DeleteMapping("/{no}")
+     public ResponseEntity<Object> getGenreDelete(@PathVariable Long no){
           Map<String, Object> map = new LinkedHashMap<>();
           genreService.deleteGenre(no);
           map.put("message", "장르 정보를 삭제했습니다.");

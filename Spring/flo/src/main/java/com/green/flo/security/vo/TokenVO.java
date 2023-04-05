@@ -1,4 +1,4 @@
-package com.example.security_test.security.vo;
+package com.green.flo.security.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

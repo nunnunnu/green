@@ -1,6 +1,6 @@
-package com.example.security_test.security.provider;
+package com.green.flo.security.provider;
 
-import com.example.security_test.security.vo.TokenVO;
+import com.green.flo.security.vo.TokenVO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

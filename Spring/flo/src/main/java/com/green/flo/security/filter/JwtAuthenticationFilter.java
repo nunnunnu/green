@@ -1,6 +1,6 @@
-package com.example.security_test.security.filter;
+package com.green.flo.security.filter;
 
-import com.example.security_test.security.provider.JwtTokenProvider;
+import com.green.flo.security.provider.JwtTokenProvider;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

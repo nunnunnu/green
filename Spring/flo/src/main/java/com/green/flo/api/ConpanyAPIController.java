@@ -1,8 +1,7 @@
 package com.green.flo.api;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
+import com.green.flo.service.CompanyService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -10,17 +9,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.green.flo.service.CompanyService;
-
-import jakarta.servlet.http.HttpSession;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/company")
@@ -59,20 +51,20 @@ public class ConpanyAPIController {
           }
      }
 
-     @PatchMapping("/update")
-     public ResponseEntity<Object> postCompanyUpdate(@RequestParam Long no,@RequestParam String name){
+     @PatchMapping("/{name}/{no}")
+     public ResponseEntity<Object> postCompanyUpdate(@PathVariable Long no,@PathVariable String name){
           Map<String, Object> resultMap = companyService.updateCompanyInfo(no, name);
           
           return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
      }
      
-     @PutMapping("/add")
-     public ResponseEntity<Object> postCompanyAdd(@RequestParam String name){
+     @PutMapping("/{name}")
+     public ResponseEntity<Object> postCompanyAdd(@PathVariable String name){
           Map<String, Object> resultMap = companyService.addCompanyInfo(name);
           return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
      }
-     @DeleteMapping("/delete")
-     public ResponseEntity<Object> getCompanyDelete(@RequestParam Long no){
+     @DeleteMapping("/{no}")
+     public ResponseEntity<Object> getCompanyDelete(@PathVariable Long no){
           Map<String, Object> map = new LinkedHashMap<>();
           companyService.deleteCompany(no);
           map.put("message", "회사 정보를 삭제했습니다.");

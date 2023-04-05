@@ -22,7 +22,6 @@ public class FIleApiController {
         @PathVariable String type,
         @PathVariable String filename
     ) throws Exception {
-        
         return fileService.getImageFile(type, filename);
         
     }
